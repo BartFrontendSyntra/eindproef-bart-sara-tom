@@ -15,9 +15,18 @@ Tom Larsen
 
 # What will we do?
 
+ForestMaster (tbd)
 Make an application for rangers, parks, farmers to manage their forests.
 
-  
+## Commandments
+
+- Thou shalt use kebabcase and lowercase for all folders /for-example-folder
+- Thou shalt use / and lowercase for branchnaming
+	- feature/your-feature-name for new features
+	- bugfix/your-bugfix-name for bug fixes
+	- hotfix/your-hotfix-name for urgent fixes
+	- documenting/your-documentation-name for documentation updates
+- Thou shalt use english for documenting and commenting
 
 ## Technstack
 
@@ -40,12 +49,6 @@ To use branches and pull requests, follow these steps:
 
 1. **Create a Branch**: Before starting work on a new feature or bug fix, create a new branch from the main branch. Use a descriptive name for the branch that reflects the work being done.
 
-We will always use the following naming convention for branches:
-
-    - feature/your-feature-name for new features
-    - bugfix/your-bugfix-name for bug fixes
-    - hotfix/your-hotfix-name for urgent fixes
-    - documenting/your-documentation-name for documentation updates
 
 create a new branch using the following command:
    ```bash
