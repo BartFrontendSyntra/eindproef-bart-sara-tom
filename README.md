@@ -1,4 +1,4 @@
 # eindproef-bart-sara-tom
 
-# Test tom
-# Test sara 
+Dit is de werkplaats waar Tom, Sara en Bart hun eindproject zullen maken voor de SyntraPxl.
+
