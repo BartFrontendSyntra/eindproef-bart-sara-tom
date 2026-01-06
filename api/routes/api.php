@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
  * POST /api/register
  * 
  * Create a new user account.
- * Expects: name, email, password, password_confirmation
+ * Expects: username, email, password, password_confirmation
  * Returns: success message + user data
  */
 Route::post('/register', function (Request $request) {
