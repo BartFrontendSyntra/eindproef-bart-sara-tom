@@ -16,12 +16,9 @@ use Illuminate\Support\Facades\DB;
  * Returns: success message + user data
  */
 Route::post('/register', function (Request $request) {
-        \Log::info('Register attempt', [
-        'data' => $request->all(),
-        'headers' => $request->headers->all()
-    ]);
+        
     try {
-        \Log::info('Validation started');
+        
     // Validate the incoming request
     $validated = $request->validate([
         'username' => 'required|string|max:255',
@@ -35,7 +32,7 @@ Route::post('/register', function (Request $request) {
         'email' => $validated['email'],
         'password' => Hash::make($validated['password']),
     ]);
-            \Log::info('User created successfully', ['user_id' => $user->id]);
+            
 
 
     // Return success response
@@ -49,10 +46,6 @@ Route::post('/register', function (Request $request) {
     ], 201);
 
 } catch (\Exception $e) {
-        \Log::error('Registration failed', [
-            'error' => $e->getMessage(),
-            'data' => $request->all()
-        ]);
         return response()->json([
             'message' => 'Registration failed',
             'error' => $e->getMessage(),
