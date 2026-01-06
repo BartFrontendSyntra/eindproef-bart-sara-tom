@@ -101,8 +101,10 @@ Route::post('/login', function (Request $request) {
     ]);
 });
 
-Route::get('/observations', function () {
-    $observations = DB::select('select * from observations');
-    return response()->json($observations);
-})->middleware('auth:sanctum');
+
+// TODO: implement this later
+// Route::get('/observations', function () {
+//     $observations = DB::select('select * from observations');
+//     return response()->json($observations);
+// })->middleware('auth:sanctum');
 
