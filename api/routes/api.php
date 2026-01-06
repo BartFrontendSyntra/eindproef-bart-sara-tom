@@ -64,7 +64,7 @@ Route::post('/register', function (Request $request) {
  * POST /api/login
  * 
  * Authenticate a user and return a Sanctum token.
- * Expects: email, password
+ * Expects: username, password
  * Returns: Bearer token + user data
  */
 Route::post('/login', function (Request $request) {
