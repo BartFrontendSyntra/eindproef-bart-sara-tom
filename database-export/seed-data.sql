@@ -11,12 +11,12 @@ INSERT INTO roles (role_name) VALUES
 
 -- Insert Users (password_hash is a bcrypt hash of 'password123' for demo purposes)
 INSERT INTO users (username, email, password_hash, role_id) VALUES 
-('Jan Vermeulen', 'jan.vermeulen@forestmaster.be', '$2b$10$rKZY0ZqJ9fVL4Q3YqZqZqOqZqZqZqZqZqZqZqZqZqZqZqZqZqZqZq', 1),
-('Sophie De Vries', 'sophie.devries@forestmaster.be', '$2b$10$rKZY0ZqJ9fVL4Q3YqZqZqOqZqZqZqZqZqZqZqZqZqZqZqZqZqZqZq', 2),
-('Pieter Jacobs', 'pieter.jacobs@gmail.com', '$2b$10$rKZY0ZqJ9fVL4Q3YqZqZqOqZqZqZqZqZqZqZqZqZqZqZqZqZqZqZq', 2),
-('Marie Claessens', 'marie.claessens@outlook.com', '$2b$10$rKZY0ZqJ9fVL4Q3YqZqZqOqZqZqZqZqZqZqZqZqZqZqZqZqZqZqZq', 3),
-('Luc Wouters', 'luc.wouters@gmail.com', '$2b$10$rKZY0ZqJ9fVL4Q3YqZqZqOqZqZqZqZqZqZqZqZqZqZqZqZqZqZqZq', 3),
-('Emma Peeters', 'emma.peeters@hotmail.com', '$2b$10$rKZY0ZqJ9fVL4Q3YqZqZqOqZqZqZqZqZqZqZqZqZqZqZqZqZqZqZq', 3);
+('janvermeulen', 'jan.vermeulen@forestmaster.be', '$2b$10$rKZY0ZqJ9fVL4Q3YqZqZqOqZqZqZqZqZqZqZqZqZqZqZqZqZqZqZq', 1),
+('sophiedevries', 'sophie.devries@forestmaster.be', '$2b$10$rKZY0ZqJ9fVL4Q3YqZqZqOqZqZqZqZqZqZqZqZqZqZqZqZqZqZqZq', 2),
+('pieterjacobs', 'pieter.jacobs@gmail.com', '$2b$10$rKZY0ZqJ9fVL4Q3YqZqZqOqZqZqZqZqZqZqZqZqZqZqZqZqZqZqZq', 2),
+('marieclaessens', 'marie.claessens@outlook.com', '$2b$10$rKZY0ZqJ9fVL4Q3YqZqZqOqZqZqZqZqZqZqZqZqZqZqZqZqZqZqZq', 3),
+('lucwouters', 'luc.wouters@gmail.com', '$2b$10$rKZY0ZqJ9fVL4Q3YqZqZqOqZqZqZqZqZqZqZqZqZqZqZqZqZqZqZq', 3),
+('emmapeeters', 'emma.peeters@hotmail.com', '$2b$10$rKZY0ZqJ9fVL4Q3YqZqZqOqZqZqZqZqZqZqZqZqZqZqZqZqZqZqZq', 3);
 
 -- Insert Location Types
 INSERT INTO location_types (type_name) VALUES 

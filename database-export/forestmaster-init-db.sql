@@ -12,7 +12,8 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,
     role_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (role_id) REFERENCES roles(id)
+    FOREIGN KEY (role_id) REFERENCES roles(id),
+    CONSTRAINT username_no_spaces CHECK (username NOT REGEXP '[[:space:]]')
 );
 
 -- 3. Location Types: Categorize areas (Nationaal Park, Privé bos, etc.)
