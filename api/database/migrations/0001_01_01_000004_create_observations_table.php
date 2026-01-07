@@ -21,7 +21,7 @@ return new class extends Migration
         });
 
         // Add spatial POINT column with SRID 4326 after table creation
-        \DB::statement('ALTER TABLE observations ADD coordinates POINT SRID 4326 NOT NULL AFTER user_id');
+        \DB::statement('ALTER TABLE observations ADD coordinates POINT NOT NULL AFTER user_id');
         
         // Add spatial index
         \DB::statement('CREATE SPATIAL INDEX observations_coordinates_spatial ON observations(coordinates)');
