@@ -1,1 +1,36 @@
-<p>navbar works!</p>
+<nav class="app-navbar">
+
+  <a routerLink="/"
+     routerLinkActive="active"
+     [routerLinkActiveOptions]="{ exact: true }"
+     class="nav-item">
+    <i class="bi bi-house"></i>
+    <span class="label">Home</span>
+  </a>
+
+  <a routerLink="/observation" routerLinkActive="active" class="nav-item">
+    <i class="bi bi-binoculars"></i>
+    <span class="label">Observation</span>
+  </a>
+
+  <a routerLink="/messages" routerLinkActive="active" class="nav-item">
+    <i class="bi bi-journal-text"></i>
+    <span class="label">Messages</span>
+  </a>
+
+  <a routerLink="/map" routerLinkActive="active" class="nav-item">
+    <i class="bi bi-map"></i>
+    <span class="label">Map</span>
+  </a>
+
+  <a routerLink="/whatshere" routerLinkActive="active" class="nav-item">
+    <i class="bi bi-geo-alt"></i>
+    <span class="label">What's here</span>
+  </a>
+
+  <a routerLink="/about" routerLinkActive="active" class="nav-item">
+    <i class="bi bi-question-circle"></i>
+    <span class="label">About</span>
+  </a>
+
+</nav>
