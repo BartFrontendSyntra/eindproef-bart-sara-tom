@@ -6,6 +6,7 @@ import { Map } from './pages/map/map';
 import { Messages } from './pages/messages/messages';
 import { Observation } from './pages/observation/observation';
 import { Whatshere } from './pages/whatshere/whatshere';
+import { AdminLogin } from './pages/admin-login/admin-login';
 
 
 export const routes: Routes = [
@@ -16,4 +17,5 @@ export const routes: Routes = [
     { path: 'messages', component: Messages },    
     { path: 'observation', component: Observation },
     { path: 'whatshere', component: Whatshere },
+    { path: 'admin-login', component: AdminLogin },
 ];
