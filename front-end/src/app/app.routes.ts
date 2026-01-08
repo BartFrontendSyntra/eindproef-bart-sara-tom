@@ -14,6 +14,6 @@ export const routes: Routes = [
     { path: 'login', component: Login },
     { path: 'map', component: Map },
     { path: 'messages', component: Messages },    
-    { path: 'observations', component: Observation },
+    { path: 'observation', component: Observation },
     { path: 'whatshere', component: Whatshere },
 ];
