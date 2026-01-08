@@ -15,7 +15,7 @@ export class AuthenticationService {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username: user.username, password: user.password }),
+      body: JSON.stringify({ username: user.username, password: user.password, requiredRole: user.requiredRole}),
     })
       .then((response) => {
         if (!response.ok) {
@@ -42,4 +42,5 @@ export class AuthenticationService {
 interface User {
     username: string;
     password: string;
+    requiredRole: string;
   }

@@ -63,6 +63,7 @@ Route::post('/register', function (Request $request) {
  */
 Route::post('/login', function (Request $request) {
 
+ 
     // Validate credentials
     $validated = $request->validate([
         'username' => 'required|string',
@@ -79,8 +80,9 @@ Route::post('/login', function (Request $request) {
             'message' => 'Invalid credentials',
         ], 401);
     }
-if ($request->has('required_role')) {
-        if ($user->role !== $request->required_role) {
+    // Check for required role if provided
+if ($request->has('requiredRole')) {
+        if ($user->role !== $request->requiredRole) {
             return response()->json([
                 'message' => 'Unauthorized: You do not have the required permissions.'
             ], 403); // 403 Forbidden is the correct code here
