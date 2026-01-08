@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+      background: #f3f8f4;
+    }
+
+    .page-header {
+      background: linear-gradient(135deg, #2f6f4f, #3f8f60);
+      color: #fff;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+    }
+
+    .nav-tile {
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      text-align: center;
+      background: #f7fbf8;
+      border: 2px solid #cfe8d9;
+      transition: transform .15s ease, box-shadow .15s ease;
+      cursor: pointer;
+    }
+
+    .nav-tile:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
+      border-color: #9fd2b8;
+    }
+
+    .nav-tile img {
+      max-width: 60px;
+      margin-bottom: 0.75rem;
+      opacity: .9;
+    }
