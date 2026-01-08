@@ -17,7 +17,7 @@ export class AdminLogin {
   loginModel = signal<Credentials>({
     username: '',
     password: '',
-    requiredRole: 'admin',
+    requiredRole: 'Admin',
   });
 
   loginForm = form(this.loginModel, schemaPath => {
@@ -36,7 +36,7 @@ export class AdminLogin {
       .then(data => {
         console.log('Login successful, token:', data);
         const redirectUrl =
-          sessionStorage.getItem('redirect_after_login') || '/home';
+          sessionStorage.getItem('redirect_after_login') || '/';
         sessionStorage.removeItem('redirect_after_login');
         this.router.navigate([redirectUrl]);
       })

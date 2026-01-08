@@ -62,7 +62,6 @@ Route::post('/register', function (Request $request) {
  * Returns: Bearer token + user data
  */
 Route::post('/login', function (Request $request) {
-
  
     // Validate credentials
     $validated = $request->validate([
@@ -82,7 +81,7 @@ Route::post('/login', function (Request $request) {
     }
     // Check for required role if provided
 if ($request->has('requiredRole')) {
-        if ($user->role !== $request->requiredRole) {
+        if ($user->role->role_name !== $request->requiredRole) {
             return response()->json([
                 'message' => 'Unauthorized: You do not have the required permissions.'
             ], 403); // 403 Forbidden is the correct code here
