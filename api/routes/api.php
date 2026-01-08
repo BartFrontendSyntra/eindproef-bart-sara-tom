@@ -67,6 +67,7 @@ Route::post('/login', function (Request $request) {
     $validated = $request->validate([
         'username' => 'required|string',
         'password' => 'required',
+        'requiredRole' => 'nullable|string'
     ]);
 
     // Find the user by username
@@ -78,7 +79,13 @@ Route::post('/login', function (Request $request) {
             'message' => 'Invalid credentials',
         ], 401);
     }
-
+if ($request->has('required_role')) {
+        if ($user->role !== $request->required_role) {
+            return response()->json([
+                'message' => 'Unauthorized: You do not have the required permissions.'
+            ], 403); // 403 Forbidden is the correct code here
+        }
+    }
     // Create a new Sanctum token for this user
     // The token name 'auth_token' is just a label for reference
     $token = $user->createToken('auth_token')->plainTextToken;
@@ -91,6 +98,7 @@ Route::post('/login', function (Request $request) {
             'id' => $user->id,
             'username' => $user->username,
             'email' => $user->email,
+            'role' => $user->role,
         ],
     ]);
 });
