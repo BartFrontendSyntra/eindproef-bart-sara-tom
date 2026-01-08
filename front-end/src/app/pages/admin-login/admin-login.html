@@ -1,10 +1,10 @@
-<form >  
+<form (submit)="onSubmit($event)">  
     <div class="form-floating mb-3">
-      <input type="text" class="form-control" id="floatingInput" placeholder="username">
+      <input type="text" class="form-control" id="floatingInput" placeholder="username" [field]="loginForm.username">
       <label for="floatingInput">username</label>
     </div>
     <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" [field]="loginForm.password">
       <label for="floatingPassword">Password</label>
     </div>
     <button type="submit" class="btn btn-primary mt-3">Login</button>

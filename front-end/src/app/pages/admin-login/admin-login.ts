@@ -1,11 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service';
-import { form, required } from '@angular/forms/signals';
+import { form, required, Field } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-login',
-  imports: [],
+  imports: [Field],
   templateUrl: './admin-login.html',
   styleUrl: './admin-login.css',
 })
