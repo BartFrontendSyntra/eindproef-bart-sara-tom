@@ -3,10 +3,18 @@
     <div class="row g-3 justify-content-center">
 
       <div class="col-12 col-md-6">
-        <div class="nav-tile">
-          <input type="text" id="" class="" placeholder="Username">
-          <input type="password" id="" class="">
-          <button>Submit</button>
+        <div class="content-tile">
+          <form (submit)="onSubmit($event)" class="row g-3 justify-content-center">  
+            <div class="form-floating">
+              <input type="text" class="form-control" id="floatingInput" placeholder="username" [field]="loginForm.username">
+              <label for="floatingInput">username</label>
+            </div>
+            <div class="form-floating">
+              <input type="password" class="form-control" id="floatingPassword" placeholder="Password" [field]="loginForm.password">
+              <label for="floatingPassword">Password</label>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Login</button>
+          </form>
         </div>
       </div>
     </div>
