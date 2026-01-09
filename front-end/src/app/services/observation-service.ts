@@ -24,8 +24,26 @@ export class ObservationService {
         });
     }
 
+    getObservations(): Promise<Observation[]> {
+        return fetch(this.apiUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${sessionStorage.getItem('auth_token')}`
+            },
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch observations');
+            }
+            return response.json();
+        });
+    }
+
 }
 interface Observation {
+    username?: string;
+    userEmail?: string;
+    createdAt?: string;
     observation_text: string;
     longitude: number;
     latitude: number;
