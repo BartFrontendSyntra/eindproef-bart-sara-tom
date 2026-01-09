@@ -1,0 +1,37 @@
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">observation</th>
+      <th scope="col">Observation</th>
+      <th scope="col">Observer</th>
+      <th scope="col">img</th>
+      <th scope="col">Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (observation of observations(); track $index) {
+
+        <tr>
+            <th scope="row">{{ $index + 1 }}</th>
+            <td>{{ observation.observation_text }}</td>
+            <td>{{observation.username}}</td>
+            <td>{{ observation.created_at | date:'short' }}</td>
+            <td>
+            <img
+                [src]="observation.photo_url"
+                alt="observation photo"
+                width="100"
+            />
+            </td>
+            <td>
+                <a [href]="'https://www.google.com/maps/search/?api=1&query=' + observation.latitude + ',' + observation.longitude" target="_blank">
+                    View on Maps
+                </a>
+            </td>
+        </tr>
+
+    }
+  </tbody>
+</table>
