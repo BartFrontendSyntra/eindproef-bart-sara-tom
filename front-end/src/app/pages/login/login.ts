@@ -17,7 +17,7 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
   loginModel = signal<Credentials>({
     username: '',
     password: '',
-    requiredRole: 'Admin',
+    requiredRole: 'Visitor',
   });
 
   loginForm = form(this.loginModel, schemaPath => {
