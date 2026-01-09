@@ -150,12 +150,12 @@ If you're using a remote MySQL database (e.g., hosted on a cloud provider):
    php artisan key:generate
    ```
 
-6. **Run database migrations** (if not using SQL import):
+6. **Run database migrations** (if using a fresh local database):
    ```bash
    php artisan migrate
    ```
 
-7. **Seed the database** (optional):
+7. **Seed the database** (optional on a fresh local database):
    ```bash
    php artisan db:seed
    ```
