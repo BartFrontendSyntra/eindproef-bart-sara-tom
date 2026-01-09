@@ -2,10 +2,11 @@ import { Component,inject,signal } from '@angular/core';
 import { form, required, Field } from '@angular/forms/signals';
 import { LocationService } from '../../services/location-service';
 import { ObservationService } from '../../services/observation-service';
+import { ObservationList } from "../../components/observation-list/observation-list";
 
 @Component({
   selector: 'app-observation',
-  imports: [Field],
+  imports: [Field, ObservationList],
   templateUrl: './observation.html',
   styleUrl: './observation.css',
 })
