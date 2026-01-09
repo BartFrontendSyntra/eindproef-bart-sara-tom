@@ -23,7 +23,11 @@
                 width="100"
             />
             </td>
-            <td>({{ observation.longitude }}, {{ observation.latitude }})</td>
+            <td>
+                <a [href]="'https://www.google.com/maps/search/?api=1&query=' + observation.latitude + ',' + observation.longitude" target="_blank">
+                    View on Maps
+                </a>
+            </td>
         </tr>
 
     }
