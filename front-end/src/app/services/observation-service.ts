@@ -43,7 +43,7 @@ export class ObservationService {
 interface Observation {
     username?: string;
     userEmail?: string;
-    createdAt?: string;
+    created_at?: string;
     observation_text: string;
     longitude: number;
     latitude: number;
