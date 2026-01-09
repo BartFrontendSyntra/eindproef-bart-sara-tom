@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal,OnInit } from '@angular/core';
 import { ObservationService } from '../../services/observation-service';
+
 
 
 @Component({
@@ -9,7 +10,7 @@ import { ObservationService } from '../../services/observation-service';
   templateUrl: './observation-list.html',
   styleUrl: './observation-list.css',
 })
-export class ObservationList {
+export class ObservationList implements OnInit {
 
   observationService = inject(ObservationService);
   observations = signal<Observation[]>([]);
