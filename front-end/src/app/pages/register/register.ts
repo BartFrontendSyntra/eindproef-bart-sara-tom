@@ -50,7 +50,7 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
     username: '',
     email: '',
     password: '',
-    passwordConfirmation: '',
+    password_confirmation: '',
     requiredRole: 'Visitor',
   });
 
@@ -58,7 +58,7 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
     required(schemaPath.username, { message: 'Username is required' });
     required(schemaPath.email, { message: 'E-mail is required' });
     required(schemaPath.password, { message: 'Password is required' });
-    required(schemaPath.passwordConfirmation, { message: 'Confirm password' });
+    required(schemaPath.password_confirmation, { message: 'Confirm password' });
   });
 
   onSubmit(event: Event) {
@@ -84,6 +84,6 @@ interface RegCredentials {
   username: string;
   email: string;
   password: string;
-  passwordConfirmation: string;
+  password_confirmation: string;
   requiredRole: string;
 }

@@ -42,7 +42,7 @@ export class AuthenticationService {
         username: user.username,
         email: user.email,
         password: user.password,
-        passwordConfirmation: user.passwordConfirmation,
+        password_confirmation: user.password_confirmation,
         requiredRole: user.requiredRole
       }),
     })
@@ -76,6 +76,6 @@ interface RegisterUser {
   username: string;
   email: string;
   password: string;
-  passwordConfirmation: string; 
+  password_confirmation: string; 
   requiredRole: string;
 }
