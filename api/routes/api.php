@@ -184,11 +184,16 @@ Route::get('/observations', function () {
             o.observation_text,
             o.photo_url,
             o.status,
+            o.location_id,
             o.created_at,
             u.username,
-            u.email
+            u.email,
+            l.name as location_name,
+            lt.type_name as location_type
         FROM observations o
         JOIN users u ON o.user_id = u.id
+        LEFT JOIN locations l ON o.location_id = l.id
+        LEFT JOIN location_types lt ON l.location_type_id = lt.id
         ORDER BY o.created_at DESC
     ');
     
@@ -209,11 +214,16 @@ Route::get('/observations/{id}', function ($id) {
             o.observation_text,
             o.photo_url,
             o.status,
+            o.location_id,
             o.created_at,
             u.username,
-            u.email
+            u.email,
+            l.name as location_name,
+            lt.type_name as location_type
         FROM observations o
         JOIN users u ON o.user_id = u.id
+        LEFT JOIN locations l ON o.location_id = l.id
+        LEFT JOIN location_types lt ON l.location_type_id = lt.id
         WHERE o.id = ?
     ', [$id]);
     
@@ -235,19 +245,21 @@ Route::post('/observations', function (Request $request) {
         'longitude' => 'required|numeric|between:-180,180',
         'observation_text' => 'nullable|string',
         'photo_url' => 'nullable|url|max:512',
+        'location_id' => 'nullable|exists:locations,id',
     ]);
 
     $user = $request->user();
     
     DB::insert('
-        INSERT INTO observations (user_id, coordinates, observation_text, photo_url, status, created_at)
-        VALUES (?, ST_GeomFromText(?, 4326), ?, ?, ?, NOW())
+        INSERT INTO observations (user_id, coordinates, observation_text, photo_url, status, location_id, created_at)
+        VALUES (?, ST_GeomFromText(?, 4326), ?, ?, ?, ?, NOW())
     ', [
         $user->id,
         "POINT({$validated['longitude']} {$validated['latitude']})",
         $validated['observation_text'] ?? null,
         $validated['photo_url'] ?? null,
         'pending',
+        $validated['location_id'] ?? null,
     ]);
     
     $id = DB::getPdo()->lastInsertId();
