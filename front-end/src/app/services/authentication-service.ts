@@ -32,7 +32,7 @@ export class AuthenticationService {
       });
   }
 
-  register(user: RegisterUser): Promise<any> {
+  register(user: RegisterUser): Promise<string> {
     return fetch(this.registerUrl, {
       method: 'POST',
       headers: {
@@ -42,7 +42,8 @@ export class AuthenticationService {
         username: user.username,
         email: user.email,
         password: user.password,
-        password_confirmation: user.passwordConfirmation
+        passwordConfirmation: user.passwordConfirmation,
+        requiredRole: user.requiredRole
       }),
     })
       .then((response) => {
@@ -75,5 +76,6 @@ interface RegisterUser {
   username: string;
   email: string;
   password: string;
-  passwordConfirmation: string;
+  passwordConfirmation: string; 
+  requiredRole: string;
 }

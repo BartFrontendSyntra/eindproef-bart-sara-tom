@@ -46,7 +46,7 @@ export class Register {
 authenticationService: AuthenticationService = inject(AuthenticationService);
   router: Router = inject(Router);
 
-  registerModel = signal<Credentials>({
+  registerModel = signal<RegCredentials>({
     username: '',
     email: '',
     password: '',
@@ -64,11 +64,11 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
   onSubmit(event: Event) {
     event.preventDefault();
    
-    const credentials = this.registerModel();
-    console.log('Registering:', credentials);
+    const regcredentials = this.registerModel();
+    console.log('Registering:', regcredentials);
     // e.g., await this.authenticationService.login(credentials);
     this.authenticationService
-      .login(credentials)
+      .register(regcredentials)
       .then(data => {
         console.log('Registration successful, token:', data);
         const redirectUrl = '/';
@@ -80,7 +80,7 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
   }
 
 }
-interface Credentials {
+interface RegCredentials {
   username: string;
   email: string;
   password: string;
