@@ -352,6 +352,80 @@ Route::get('/users/{id}/observations', function ($id) {
     return response()->json($observations);
 });
 
+/**
+ * POST /api/locations/{id}/subscribe
+ * Subscribe the authenticated user to a location
+ */
+Route::post('/locations/{id}/subscribe', function (Request $request, $id) {
+    $user = $request->user();
+    
+    // Check if user is a Ranger
+    if ($user->role->role_name !== 'Ranger') {
+        return response()->json(['message' => 'Only Rangers can subscribe to locations'], 403);
+    }
+    $location = Location::find($id);
+    
+    if (!$location) {
+        return response()->json(['message' => 'Location not found'], 404);
+    }
+    
+    // Check if already subscribed
+    if ($user->subscribedLocations()->where('location_id', $id)->exists()) {
+        return response()->json(['message' => 'Already subscribed to this location'], 400);
+    }
+    
+    $user->subscribedLocations()->attach($id);
+    
+    return response()->json(['message' => 'Successfully subscribed to location'], 201);
+})->middleware('auth:sanctum');
+
+/**
+ * DELETE /api/locations/{id}/unsubscribe
+ * Unsubscribe the authenticated user from a location
+ */
+Route::delete('/locations/{id}/unsubscribe', function (Request $request, $id) {
+    $user = $request->user();
+        // Check if user is a Ranger
+    if ($user->role->role_name !== 'Ranger') {
+        return response()->json(['message' => 'Only Rangers can unsubscribe from locations'], 403);
+    }
+    
+    if (!$user->subscribedLocations()->where('location_id', $id)->exists()) {
+        return response()->json(['message' => 'Not subscribed to this location'], 400);
+    }
+    
+    $user->subscribedLocations()->detach($id);
+    
+    return response()->json(['message' => 'Successfully unsubscribed from location']);
+})->middleware('auth:sanctum');
+
+/**
+ * GET /api/users/{id}/subscriptions
+ * Get all locations a user is subscribed to
+ */
+Route::get('/users/{id}/subscriptions', function ($id) {
+    $user = User::with(['subscribedLocations.locationType'])->find($id);
+    
+    if (!$user) {
+        return response()->json(['message' => 'User not found'], 404);
+    }
+    
+    return response()->json($user->subscribedLocations);
+})->middleware('auth:sanctum');
+
+/**
+ * GET /api/locations/{id}/subscribers
+ * Get all users subscribed to a location
+ */
+Route::get('/locations/{id}/subscribers', function ($id) {
+    $location = Location::with('subscribers.role')->find($id);
+    
+    if (!$location) {
+        return response()->json(['message' => 'Location not found'], 404);
+    }
+    
+    return response()->json($location->subscribers);
+})->middleware('auth:sanctum');
 
 //     return response()->json($observations);
 // })->middleware('auth:sanctum');

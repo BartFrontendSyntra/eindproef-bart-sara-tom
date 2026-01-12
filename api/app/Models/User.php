@@ -73,4 +73,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Observation::class);
     }
+    /**
+     * The locations that the user is subscribed to.
+     */
+    public function subscribedLocations()
+    {
+    return $this->belongsToMany(Location::class, 'location_user')
+                ->withPivot('subscribed_at')
+                ->withTimestamps();
+    }
 }

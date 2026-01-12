@@ -21,7 +21,13 @@ class Location extends Model
         return $this->belongsTo(LocationType::class);
     }
     public function observations()
-{
+    {
     return $this->hasMany(Observation::class);
-}
+    }
+    public function subscribers()
+    {
+    return $this->belongsToMany(User::class, 'location_user')
+                ->withPivot('subscribed_at')
+                ->withTimestamps();
+    }
 }
