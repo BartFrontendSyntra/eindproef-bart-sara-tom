@@ -13,6 +13,7 @@ class Observation extends Model
 
     protected $fillable = [
         'user_id',
+        'location_id',
         'coordinates',
         'observation_text',
         'photo_url',
@@ -46,4 +47,9 @@ class Observation extends Model
         }
         return null;
     }
+
+    public function location()
+{
+    return $this->belongsTo(Location::class);
+}
 }
