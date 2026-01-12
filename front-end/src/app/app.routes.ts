@@ -18,5 +18,5 @@ export const routes: Routes = [
     { path: 'messages', component: Messages, canActivate: [authGuardGuard] },    
     { path: 'observation', component: Observation, canActivate: [authGuardGuard] },
     { path: 'whatshere', component: Whatshere, canActivate: [authGuardGuard] },
-    { path: 'admin-login', component: AdminLogin, canActivate: [authGuardGuard] },
+    { path: 'admin-login', component: AdminLogin },
 ];
