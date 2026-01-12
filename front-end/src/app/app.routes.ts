@@ -7,7 +7,7 @@ import { Messages } from './pages/messages/messages';
 import { Observation } from './pages/observation/observation';
 import { Whatshere } from './pages/whatshere/whatshere';
 import { AdminLogin } from './pages/admin-login/admin-login';
-import { authGuard} from './guards/auth-guard';
+import { authGuard } from './guards/auth-guard';
 
 
 export const routes: Routes = [
