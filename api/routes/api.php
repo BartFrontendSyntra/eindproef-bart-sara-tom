@@ -357,13 +357,17 @@ Route::get('/users/{id}/observations', function ($id) {
  * Subscribe the authenticated user to a location
  */
 Route::post('/locations/{id}/subscribe', function (Request $request, $id) {
+    $user = $request->user();
+    
+    // Check if user is a Ranger
+    if ($user->role->role_name !== 'Ranger') {
+        return response()->json(['message' => 'Only Rangers can subscribe to locations'], 403);
+    }
     $location = Location::find($id);
     
     if (!$location) {
         return response()->json(['message' => 'Location not found'], 404);
     }
-    
-    $user = $request->user();
     
     // Check if already subscribed
     if ($user->subscribedLocations()->where('location_id', $id)->exists()) {
@@ -381,6 +385,10 @@ Route::post('/locations/{id}/subscribe', function (Request $request, $id) {
  */
 Route::delete('/locations/{id}/unsubscribe', function (Request $request, $id) {
     $user = $request->user();
+        // Check if user is a Ranger
+    if ($user->role->role_name !== 'Ranger') {
+        return response()->json(['message' => 'Only Rangers can unsubscribe from locations'], 403);
+    }
     
     if (!$user->subscribedLocations()->where('location_id', $id)->exists()) {
         return response()->json(['message' => 'Not subscribed to this location'], 400);
