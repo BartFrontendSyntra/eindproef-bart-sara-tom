@@ -7,16 +7,16 @@ import { Messages } from './pages/messages/messages';
 import { Observation } from './pages/observation/observation';
 import { Whatshere } from './pages/whatshere/whatshere';
 import { AdminLogin } from './pages/admin-login/admin-login';
-import { authGuardGuard } from './auth-guard-guard';
+import { authGuard} from './guards/auth-guard';
 
 
 export const routes: Routes = [
-    { path: '', component: Home, pathMatch: 'full', canActivate: [authGuardGuard] },
-    { path: 'about', component: About, canActivate: [authGuardGuard] },
+    { path: '', component: Home, pathMatch: 'full', canActivate: [authGuard] },
+    { path: 'about', component: About, canActivate: [authGuard] },
     { path: 'login', component: Login },
-    { path: 'map', component: Map, canActivate: [authGuardGuard] },
-    { path: 'messages', component: Messages, canActivate: [authGuardGuard] },    
-    { path: 'observation', component: Observation, canActivate: [authGuardGuard] },
-    { path: 'whatshere', component: Whatshere, canActivate: [authGuardGuard] },
+    { path: 'map', component: Map, canActivate: [authGuard] },
+    { path: 'messages', component: Messages, canActivate: [authGuard] },    
+    { path: 'observation', component: Observation, canActivate: [authGuard] },
+    { path: 'whatshere', component: Whatshere, canActivate: [authGuard] },
     { path: 'admin-login', component: AdminLogin },
 ];
