@@ -20,4 +20,8 @@ class Location extends Model
     {
         return $this->belongsTo(LocationType::class);
     }
+    public function observations()
+{
+    return $this->hasMany(Observation::class);
+}
 }
