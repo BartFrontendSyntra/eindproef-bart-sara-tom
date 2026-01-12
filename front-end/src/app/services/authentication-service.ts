@@ -32,7 +32,7 @@ export class AuthenticationService {
       });
   }
 
-  register(user: RegisterUser): Promise<string> {
+  register(user: RegisterUser): Promise<any> {
     return fetch(this.registerUrl, {
       method: 'POST',
       headers: {
