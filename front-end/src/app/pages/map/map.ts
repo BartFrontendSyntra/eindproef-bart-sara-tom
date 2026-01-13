@@ -65,9 +65,9 @@ addMarkers(): void {
 }
 
 fixMarkers(): void {
-  const iconRetinaUrl = 'assets/marker-icon-2x.png';
-  const iconUrl = 'assets/marker-icon.png';
-  const shadowUrl = 'assets/marker-shadow.png';
+  const iconRetinaUrl = '/assets/marker-icon-2x.png';
+  const iconUrl = '/assets/marker-icon.png';
+  const shadowUrl = '/assets/marker-shadow.png';
   const iconDefault = L.icon({
   iconRetinaUrl,
   iconUrl,
