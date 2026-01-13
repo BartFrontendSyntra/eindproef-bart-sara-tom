@@ -34,17 +34,29 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
   onSubmit(event: Event) {
     event.preventDefault();
    
-    const regcredentials = this.registerModel();
-    console.log('Registering:', regcredentials);
+    const regCredentials = this.registerModel();
+    console.log('Registering:', regCredentials);
+
     this.authenticationService
-      .register(regcredentials)
-      .then(data => {
-        console.log('Registration successful, token:', data);
-        const redirectUrl = '/';
-          this.router.navigate([redirectUrl]);
+      .register(regCredentials)
+      .then(() => {
+        const loginCredentials = {
+          username: regCredentials.username,
+          password: regCredentials.password,
+          requiredRole: regCredentials.requiredRole
+        };
+        console.log('Logging in with:', loginCredentials);
+        return this.authenticationService.login(loginCredentials);
+      })
+      .then(token => {
+        console.log('Registration and login successful, token:', token);
+        const redirectUrl =
+          sessionStorage.getItem('redirect_after_login') || '/';
+        sessionStorage.removeItem('redirect_after_login');
+        this.router.navigate([redirectUrl]); 
       })
       .catch(error => {
-        console.error('Registration failed:', error);
+        console.error('Registration or login failed:', error);
       });
   }
 
