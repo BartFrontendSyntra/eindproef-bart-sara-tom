@@ -22,7 +22,7 @@
       </div>
     </div>
 
-<div class="modal-backdrop fade show" *ngIf="showModal()"></div>
+<div class="modal-backdrop fade show" [hidden]="!showModal()"></div>
 
       <div class="col-12 col-md-6">
         <div class="content-tile">
@@ -49,7 +49,7 @@
     </div>
 </div>
 
-<div *ngIf="showToast()" class="toast-container position-fixed top-0 end-0 p-3">
+<div [hidden]="!showToast()" class="toast-container position-fixed top-0 end-0 p-3">
   <div class="toast show align-items-center text-bg-danger border-0">
     <div class="d-flex">
       <div class="toast-body">
