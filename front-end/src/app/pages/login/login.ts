@@ -16,8 +16,7 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
 
   loginModel = signal<Credentials>({
     username: '',
-    password: '',
-    requiredRole: 'Visitor',
+    password: ''
   });
 
   loginForm = form(this.loginModel, schemaPath => {
@@ -49,5 +48,4 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
 interface Credentials {
   username: string;
   password: string;
-  requiredRole: string;
 }

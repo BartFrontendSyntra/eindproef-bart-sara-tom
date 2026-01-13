@@ -73,7 +73,7 @@ export class AuthenticationService {
 interface User {
     username: string;
     password: string;
-    requiredRole: string;
+    requiredRole?: string;
   }
 
 interface RegisterUser {
