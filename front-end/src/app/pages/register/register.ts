@@ -1,11 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service';
 import { form, required, Field } from '@angular/forms/signals';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  imports: [Field],
+  imports: [Field, RouterLink],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })

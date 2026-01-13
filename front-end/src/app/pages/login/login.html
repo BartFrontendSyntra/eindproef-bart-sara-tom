@@ -6,7 +6,7 @@
           <form (submit)="onSubmit($event)" class="row g-3 justify-content-center">  
             <div class="form-floating">
               <input type="text" class="form-control" id="floatingInput" placeholder="username" [field]="loginForm.username">
-              <label for="floatingInput">username</label>
+              <label for="floatingInput">Username</label>
             </div>
             <div class="form-floating">
               <input type="password" class="form-control" id="floatingPassword" placeholder="Password" [field]="loginForm.password">
@@ -14,6 +14,9 @@
             </div>
             <button type="submit" class="btn btn-primary mt-3">Login</button>
           </form>
+          <div class="mt-3">
+            <span>Don't have an account yet? <a routerLink="/register">Register</a></span>
+          </div>
         </div>
       </div>
     </div>
