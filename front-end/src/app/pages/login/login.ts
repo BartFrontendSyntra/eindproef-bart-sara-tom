@@ -2,10 +2,11 @@ import { Component, inject, signal } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service';
 import { form, required, Field } from '@angular/forms/signals';
 import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [Field, RouterLink],
+  imports: [Field, RouterLink, CommonModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -24,12 +25,17 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
     required(schemaPath.password, { message: 'Password is required' });
   });
 
+  showToast = signal(false);
+  toastMessage = signal('');
+  showModal = signal(false);
+  modalMessage = signal('');
+
   onSubmit(event: Event) {
     event.preventDefault();
    
     const credentials = this.loginModel();
     console.log('Logging in with:', credentials);
-    // e.g., await this.authenticationService.login(credentials);
+
     this.authenticationService
       .login(credentials)
       .then(data => {
@@ -39,9 +45,21 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
         sessionStorage.removeItem('redirect_after_login');
         this.router.navigate([redirectUrl]);
       })
-      .catch(error => {
-        console.error('Login failed:', error);
+      .catch((error: any) => {
+        console.error(error);
+        if (error.message === 'Login failed') {
+          this.toastMessage.set('Wrong username or password.');
+          this.showToast.set(true);
+          setTimeout (() => this.showToast.set(false), 3000);
+        } else {
+          this.modalMessage.set('Server error.');
+          this.showModal.set(true)
+        }
       });
+  }
+
+  closeModal() {
+    this.showModal.set(false);
   }
 
 }
