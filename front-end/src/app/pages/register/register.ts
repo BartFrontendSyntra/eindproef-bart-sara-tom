@@ -10,36 +10,6 @@ import { Router } from '@angular/router';
   styleUrl: './register.css',
 })
 
-// export class Register {
-
-//   user = {
-//     username: '',
-//     email: '',
-//     password: '',
-//     passwordConfirmation: ''
-//   };
-
-//   error = '';
-//   success = '';
-
-//   constructor(private authService: AuthenticationService) {}
-
-//   onSubmit() {
-//     this.authService.register(this.user)
-//       .then(res => {
-//         this.success = res.message;
-//         this.error = '';
-//         this.user = { username: '', email: '', password: '', passwordConfirmation: '' };
-//       })
-//       .catch(err => {
-//         this.error = err.message;
-//         this.success = '';
-//       });
-//   }
-// }
-//
-// version by chatgpt above
-
 
 export class Register {
 
@@ -66,7 +36,6 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
    
     const regcredentials = this.registerModel();
     console.log('Registering:', regcredentials);
-    // e.g., await this.authenticationService.login(credentials);
     this.authenticationService
       .register(regcredentials)
       .then(data => {
