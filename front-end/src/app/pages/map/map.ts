@@ -59,7 +59,7 @@ addMarkers(): void {
   this.markerLayer.clearLayers(); // Clear old markers
   this.observations().forEach(obs => {
     const marker = L.marker([obs.latitude, obs.longitude]);
-    marker.bindPopup(`<b>Observation by:</b> ${obs.username}`);
+    marker.bindPopup(`<b>Observation :</b> ${obs.observation_text}<br><b>By :</b> ${obs.username || 'Anonymous'}<br><img src="${obs.photo_url}" alt="Observation Photo" width="100%">`);
     this.markerLayer.addLayer(marker);
   });
 }
