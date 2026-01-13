@@ -1,0 +1,11 @@
+
+<h2>Subscribe to a Location</h2>
+<form (submit)="onSubmit($event)">
+  <select class="form-select form-select-lg mb-3" [formField]="locationForm.location_id">
+    <option [value]="null" disabled>Where did you make the observation?</option>
+    @for (location of locations(); track location.id) {
+    <option [value]="location.id">{{ location.name }}</option>
+    }
+  </select>
+  <button type="submit" class="btn btn-primary mt-3">Submit</button>
+</form>
