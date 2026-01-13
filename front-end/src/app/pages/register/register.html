@@ -5,20 +5,20 @@
         <div class="content-tile">
           <form (submit)="onSubmit($event)" class="row g-3 justify-content-center">  
             <div class="form-floating">
-              <input type="text" class="form-control" id="floatingInput" placeholder="Username" [field]="registerForm.username">
-              <label for="floatingInput">Username</label>
+              <input type="text" class="form-control" id="floatingInputUser" placeholder="Username" [field]="registerForm.username">
+              <label for="floatingInputUser">Username</label>
             </div>
             <div class="form-floating">
-              <input type="text" class="form-control" id="floatingInput" placeholder="E-mail" [field]="registerForm.email">
-              <label for="floatingInput">E-mail</label>
+              <input type="text" class="form-control" id="floatingInputMail" placeholder="E-mail" [field]="registerForm.email">
+              <label for="floatingInputMail">E-mail</label>
             </div>
             <div class="form-floating">
               <input type="password" class="form-control" id="floatingPassword" placeholder="Password" [field]="registerForm.password">
               <label for="floatingPassword">Password</label>
             </div>
             <div class="form-floating">
-              <input type="password" class="form-control" id="floatingPassword" placeholder="Password" [field]="registerForm.password_confirmation">
-              <label for="floatingPassword">Confirm Password</label>
+              <input type="password" class="form-control" id="floatingPasswordConfirmation" placeholder="Password" [field]="registerForm.password_confirmation">
+              <label for="floatingPasswordConfirmation">Confirm Password</label>
             </div>
             <button type="submit" class="btn btn-primary mt-3">Register</button>
           </form>
