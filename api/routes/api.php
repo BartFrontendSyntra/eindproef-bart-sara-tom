@@ -80,7 +80,7 @@ Route::post('/login', function (Request $request) {
         ], 401);
     }
     // Check for required role if provided
-if ($request->has('requiredRole')) {
+    if ($request->has('requiredRole')) {
         if ($user->role->role_name !== $request->requiredRole) {
             return response()->json([
                 'message' => 'Unauthorized: You do not have the required permissions.'
