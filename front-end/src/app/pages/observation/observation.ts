@@ -1,6 +1,6 @@
 import { Component,inject,signal } from '@angular/core';
 import { form, required, Field } from '@angular/forms/signals';
-import { LocationService } from '../../services/location-service';
+import { GeoLocationService } from '../../services/geo-location-service';
 import { ObservationService } from '../../services/observation-service';
 import { ObservationList } from "../../components/observation-list/observation-list";
 
@@ -12,7 +12,7 @@ import { ObservationList } from "../../components/observation-list/observation-l
 })
 export class Observation {
 
-  locationService: LocationService = inject(LocationService);
+  geoLocationService: GeoLocationService = inject(GeoLocationService);
   observationService: ObservationService = inject(ObservationService);
 
   observationModel = signal<ObservationData>({
@@ -33,7 +33,7 @@ export class Observation {
 
   async fetchLocation() {
     try {
-      const position = await this.locationService.getCurrentLocation();
+      const position = await this.geoLocationService.getCurrentLocation();
       this.observationModel.update(current => ({
         ...current,
         latitude: position.coords.latitude,
