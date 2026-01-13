@@ -86,6 +86,15 @@ Route::post('/login', function (Request $request) {
                 'message' => 'Unauthorized: You do not have the required permissions.'
             ], 403); // 403 Forbidden is the correct code here
         }
+        
+    }
+    else {
+        // If no requiredRole specified, block Admins from regular login
+        if ($user->role->role_name === 'Admin') {
+            return response()->json([
+                'message' => 'Admins must use the admin login page.'
+            ], 403);
+        }
     }
     // Create a new Sanctum token for this user
     // The token name 'auth_token' is just a label for reference
