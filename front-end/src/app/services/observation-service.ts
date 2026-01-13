@@ -40,7 +40,7 @@ export class ObservationService {
     }
 
 }
-interface Observation {
+export interface Observation {
     username?: string;
     userEmail?: string;
     created_at?: string;
