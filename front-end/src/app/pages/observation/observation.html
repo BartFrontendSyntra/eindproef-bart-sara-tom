@@ -12,15 +12,19 @@
             class="form-control"
             id="floatingInput"
             placeholder="observation"
-            [field]="observationForm.observation_text"
+            [formField]="observationForm.observation_text"
           />
           <label for="floatingInput">observation</label>
         </div>
+        <select class="form-select form-select-lg mb-3" [formField]="observationForm.location_id">
+          <option [value]="null" disabled>Where did you make the observation?</option>
+          @for (location of locations(); track location.id) {
+          <option [value]="location.id ">{{ location.name }}</option>
+
+          }
+        </select>
         <button type="submit" class="btn btn-primary mt-3">Submit</button>
       </form>
-    </div>
-    <div class="col-12 col-md-6">
-        <app-observation-list></app-observation-list>
     </div>
   </div>
 </div>

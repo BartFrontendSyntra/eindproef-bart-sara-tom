@@ -48,4 +48,5 @@ export interface Observation {
     longitude: number;
     latitude: number;
     photo_url: string;
+    location_id: string;
 }

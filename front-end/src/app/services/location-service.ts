@@ -1,20 +1,31 @@
 import { Injectable } from '@angular/core';
 
+
 @Injectable({
   providedIn: 'root',
 })
 export class LocationService {
-  getCurrentLocation(): Promise<GeolocationPosition> {
-    return new Promise((resolve, reject) => {
-      if (!navigator.geolocation) {
-        reject('Geolocation is not supported by your browser');
-      }
+  private apiUrl = 'http://localhost:8000/api/locations';
 
-      navigator.geolocation.getCurrentPosition(
-        (position) => resolve(position),
-        (error) => reject(error),
-        { enableHighAccuracy: true }
-      );
-    });
-  }
+  getLocations(): Promise<Location[]> {
+          return fetch(this.apiUrl, {
+              method: 'GET',
+              headers: {
+                  'Authorization': `Bearer ${sessionStorage.getItem('auth_token')}`
+              },
+          })
+          .then((response) => {
+              if (!response.ok) {
+                  throw new Error('Failed to fetch observations');
+              }
+              return response.json();
+          });
+      }
+}
+
+export interface Location {
+    id: number;
+    name: string;
+    latitude: number;
+    longitude: number;
 }
