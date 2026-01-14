@@ -48,11 +48,10 @@ export class AuthenticationService {
         requiredRole: user.requiredRole
       }),
     })
-      .then((response) => {
+      .then(async (response) => {
         if (!response.ok) {
-          return response.json().then(err => {
-            throw new Error(err.message || 'Registration failed');
-          });
+          const err = await response.json();
+          throw err;
         }
         return response.json();
       })

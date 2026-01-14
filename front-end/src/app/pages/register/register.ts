@@ -2,10 +2,11 @@ import { Component, inject, signal } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service';
 import { form, required, Field } from '@angular/forms/signals';
 import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  imports: [Field, RouterLink],
+  imports: [Field, RouterLink, CommonModule],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
@@ -31,6 +32,11 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
     required(schemaPath.password_confirmation, { message: 'Confirm password' });
   });
 
+  showToast = signal(false);
+  toastMessage = signal('');
+  showModal = signal(false);
+  modalMessage = signal('');
+
   onSubmit(event: Event) {
     event.preventDefault();
    
@@ -55,8 +61,20 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
         sessionStorage.removeItem('redirect_after_login');
         this.router.navigate([redirectUrl]); 
       })
-      .catch(error => {
+
+      .catch((error: any) => {
         console.error('Registration or login failed:', error);
+        console.log('RAW ERROR:', JSON.stringify(error, null, 2));
+        if (error?.error) {
+          this.toastMessage.set(error.error);   // error reading and setting it as toast message (invalig username or email)
+          this.showToast.set(true);
+          setTimeout(() => this.showToast.set(false), 3000);
+          return;
+        }
+
+        this.toastMessage.set('Registration failed.'); //fallback
+        this.showToast.set(true);
+        setTimeout(() => this.showToast.set(false), 3000);
       });
   }
 
