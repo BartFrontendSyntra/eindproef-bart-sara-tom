@@ -1,4 +1,4 @@
-@if (authService.isLoggedIn()) {
+@if (authService.isLoggedIn() && authService.getUserRole() !== 'Admin') {
 <app-navbar></app-navbar>
 }
 <router-outlet />
