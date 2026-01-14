@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service';
 import { form, required, Field } from '@angular/forms/signals';
 import { Router, RouterLink } from '@angular/router';
@@ -37,6 +37,13 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
   showModal = signal(false);
   modalMessage = signal('');
 
+  passwordsMatch = computed(() => {
+    const { password, password_confirmation } = this.registerModel();
+    return password.length > 0 &&
+        password_confirmation.length > 0 &&
+        password !== password_confirmation;
+  });
+
   onSubmit(event: Event) {
     event.preventDefault();
    
@@ -71,7 +78,7 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
           return;
         }
 
-        this.toastMessage.set('Registration failed.'); //fallback
+        this.toastMessage.set('Registration failed.'); // fallback error message
         this.showToast.set(true);
         setTimeout(() => this.showToast.set(false), 3000);
       });

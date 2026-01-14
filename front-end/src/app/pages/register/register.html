@@ -24,6 +24,9 @@
               <input type="password" class="form-control" id="floatingPasswordConfirmation" placeholder="Password" [field]="registerForm.password_confirmation">
               <label for="floatingPasswordConfirmation">Confirm Password</label>
             </div>
+            <div class="m-0" [hidden]="!passwordsMatch()">
+              Passwords do not match
+            </div>
             <button type="submit" class="btn btn-primary mt-3">Register</button>
           </form>
           <div class="mt-3">
