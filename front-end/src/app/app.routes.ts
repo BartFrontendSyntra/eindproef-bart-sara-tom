@@ -8,7 +8,11 @@ import { Observation } from './pages/observation/observation';
 import { Whatshere } from './pages/whatshere/whatshere';
 import { AdminLogin } from './pages/admin-login/admin-login';
 import { Register } from './pages/register/register';
+import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
+
 import { authGuard } from './guards/auth-guard';
+import { adminGuard } from './guards/admin-guard';
+
 
 
 export const routes: Routes = [
@@ -21,4 +25,5 @@ export const routes: Routes = [
     { path: 'whatshere', component: Whatshere, canActivate: [authGuard] },
     { path: 'admin-login', component: AdminLogin },
     { path: 'register', component: Register },
+    { path: 'admin-dashboard', component: AdminDashboard, canActivate: [authGuard, adminGuard] },
 ];

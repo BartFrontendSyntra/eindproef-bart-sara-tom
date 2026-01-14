@@ -1,0 +1,57 @@
+<div class="container-fluid py-4">
+  <div class="page-header mb-4 text-center">
+    <h2 class="fw-semibold mb-1">Admin Dashboard 🛡️</h2>
+    <p class="mb-0">Manage your forestry application</p>
+  </div>
+
+  <div class="row g-4">
+    <!-- Sidebar Navigation -->
+    <div class="col-12 col-lg-3">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h5 class="mb-0">Navigation</h5>
+        </div>
+        <nav class="sidebar-nav">
+          <button 
+            class="nav-item" 
+            [class.active]="activeSection() === 'users'"
+            (click)="setActiveSection('users')">
+            <i class="bi bi-people-fill"></i>
+            <span>Users</span>
+          </button>
+          <button 
+            class="nav-item" 
+            [class.active]="activeSection() === 'locations'"
+            (click)="setActiveSection('locations')">
+            <i class="bi bi-geo-alt-fill"></i>
+            <span>Locations</span>
+          </button>
+          <button 
+            class="nav-item" 
+            [class.active]="activeSection() === 'observations'"
+            (click)="setActiveSection('observations')">
+            <i class="bi bi-binoculars-fill"></i>
+            <span>Observations</span>
+          </button>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="col-12 col-lg-9">
+      <div class="content-area">
+        @switch (activeSection()) {
+          @case ('users') {
+            <app-users-admin-component></app-users-admin-component>
+          }
+          @case ('locations') {
+            <app-locations-admin-component></app-locations-admin-component>
+          }
+          @case ('observations') {
+            <app-observations-admin-component></app-observations-admin-component>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</div>
