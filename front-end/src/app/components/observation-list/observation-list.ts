@@ -1,5 +1,5 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
-import { ObservationService } from '../../services/observation-service';
+import { Component, inject, signal, OnInit,viewChild, ElementRef, effect } from '@angular/core';
+import { ObservationService, Observation } from '../../services/observation-service';
 
 @Component({
   selector: 'app-observation-list',
@@ -11,6 +11,21 @@ export class ObservationList implements OnInit {
   observationService = inject(ObservationService);
   observations = signal<Observation[]>([]);
 
+  activeObservation = signal<Observation | null>(null);
+  // Get the dialog reference
+  private dialogRef = viewChild<ElementRef<HTMLDialogElement>>('obsDialog');
+
+  constructor() {
+    effect(() => {
+      const el = this.dialogRef()?.nativeElement;
+      if (this.activeObservation()) {
+        el?.showModal();
+      } else {
+        el?.close();
+      }
+    });
+  }
+
   ngOnInit() {
     this.loadObservations();
   }
@@ -19,9 +34,7 @@ export class ObservationList implements OnInit {
     this.observationService
       .getObservations()
       .then((data) => {
-        this.observations.set(
-          data.sort(sortByStatusAndDateCreated)
-        );
+        this.observations.set(data.sort(sortByStatusAndDateCreated));
       })
       .catch((error) => {
         console.error('Error loading observations:', error);
@@ -45,16 +58,49 @@ export class ObservationList implements OnInit {
       return dateB - dateA; // Newest first. Use (dateA - dateB) for Oldest first.
     }
   }
-}
 
-interface Observation {
-  username?: string;
-  userEmail?: string;
-  created_at?: string;
-  observation_text: string;
-  longitude: number;
-  latitude: number;
-  photo_url: string;
-  location_name?: string;
-  status?: string;
+  close() {
+    this.activeObservation.set(null);
+  }
+  
+  getStatusBadgeClass(status?: string) {
+    return status?.toLowerCase() === 'resolved' ? 'bg-success' : 'bg-warning text-dark';
+  }
+
+  verifyObservation(id: number) {
+    this.observationService
+      .updateObservation(id, { status: 'verified' })
+      .then(() => {
+        this.loadObservations();
+        this.close();
+      })
+      .catch((error) => {
+        console.error('Error verifying observation:', error);
+      });
+  }
+
+  flagObservation(id: number) {
+    this.observationService
+      .updateObservation(id, { status: 'flagged' })
+      .then(() => {
+        this.loadObservations();
+        this.close();
+      })
+      .catch((error) => {
+        console.error('Error flagging observation:', error);
+      });
+  }
+
+  formatDate(dateString?: string): string {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+
 }
