@@ -64,7 +64,6 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
 
       .catch((error: any) => {
         console.error('Registration or login failed:', error);
-        console.log('RAW ERROR:', JSON.stringify(error, null, 2));
         if (error?.error) {
           this.toastMessage.set(error.error);   // error reading and setting it as toast message (invalig username or email)
           this.showToast.set(true);
