@@ -1,44 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service';
 import { form, required, Field } from '@angular/forms/signals';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  imports: [Field],
+  imports: [Field, RouterLink],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
-
-// export class Register {
-
-//   user = {
-//     username: '',
-//     email: '',
-//     password: '',
-//     passwordConfirmation: ''
-//   };
-
-//   error = '';
-//   success = '';
-
-//   constructor(private authService: AuthenticationService) {}
-
-//   onSubmit() {
-//     this.authService.register(this.user)
-//       .then(res => {
-//         this.success = res.message;
-//         this.error = '';
-//         this.user = { username: '', email: '', password: '', passwordConfirmation: '' };
-//       })
-//       .catch(err => {
-//         this.error = err.message;
-//         this.success = '';
-//       });
-//   }
-// }
-//
-// version by chatgpt above
 
 
 export class Register {
@@ -64,18 +34,29 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
   onSubmit(event: Event) {
     event.preventDefault();
    
-    const regcredentials = this.registerModel();
-    console.log('Registering:', regcredentials);
-    // e.g., await this.authenticationService.login(credentials);
+    const regCredentials = this.registerModel();
+    console.log('Registering:', regCredentials);
+
     this.authenticationService
-      .register(regcredentials)
-      .then(data => {
-        console.log('Registration successful, token:', data);
-        const redirectUrl = '/';
-          this.router.navigate([redirectUrl]);
+      .register(regCredentials)
+      .then(() => {
+        const loginCredentials = {
+          username: regCredentials.username,
+          password: regCredentials.password,
+          requiredRole: regCredentials.requiredRole
+        };
+        console.log('Logging in with:', loginCredentials);
+        return this.authenticationService.login(loginCredentials);
+      })
+      .then(token => {
+        console.log('Registration and login successful, token:', token);
+        const redirectUrl =
+          sessionStorage.getItem('redirect_after_login') || '/';
+        sessionStorage.removeItem('redirect_after_login');
+        this.router.navigate([redirectUrl]); 
       })
       .catch(error => {
-        console.error('Registration failed:', error);
+        console.error('Registration or login failed:', error);
       });
   }
 
