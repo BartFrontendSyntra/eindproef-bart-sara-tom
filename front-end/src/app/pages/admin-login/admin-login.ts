@@ -30,13 +30,13 @@ export class AdminLogin {
    
     const credentials = this.loginModel();
     console.log('Logging in with:', credentials);
-    // e.g., await this.authenticationService.login(credentials);
+    
     this.authenticationService
       .login(credentials)
       .then(data => {
         console.log('Login successful, token:', data);
         const redirectUrl =
-          sessionStorage.getItem('redirect_after_login') || '/';
+          sessionStorage.getItem('redirect_after_login') || '/admin-dashboard';
         sessionStorage.removeItem('redirect_after_login');
         this.router.navigate([redirectUrl]);
       })
