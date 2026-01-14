@@ -39,4 +39,6 @@ interface Observation {
   longitude: number;
   latitude: number;
   photo_url: string;
+  location_name?: string;
+  status?: string;
 }
