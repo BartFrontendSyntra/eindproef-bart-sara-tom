@@ -1,10 +1,9 @@
-import { DatePipe } from '@angular/common';
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { ObservationService } from '../../services/observation-service';
 
 @Component({
   selector: 'app-observation-list',
-  imports: [DatePipe],
+  imports: [],
   templateUrl: './observation-list.html',
   styleUrl: './observation-list.css',
 })
