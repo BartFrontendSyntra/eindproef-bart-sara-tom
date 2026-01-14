@@ -290,8 +290,19 @@ Route::post('/observations', function (Request $request) {
 /**
  * PUT /api/observations/{id}
  * Update an observation (status, text, photo)
+ * Only accessible to Rangers and Admins
  */
 Route::put('/observations/{id}', function (Request $request, $id) {
+    // Check if user has Ranger or Admin role
+    $user = $request->user();
+    $userRole = $user->role->role_name;
+    
+    if ($userRole !== 'Ranger' && $userRole !== 'Admin') {
+        return response()->json([
+            'message' => 'Unauthorized. Only Rangers and Admins can update observations.'
+        ], 403);
+    }
+
     $validated = $request->validate([
         'observation_text' => 'nullable|string',
         'photo_url' => 'nullable|url|max:512',
