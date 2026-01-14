@@ -28,6 +28,7 @@ export class AuthenticationService {
       })
       .then((data) => {
         sessionStorage.setItem('auth_token', data.token);
+        sessionStorage.setItem('user_role', data.role);
         return data;
       });
   }

@@ -28,12 +28,10 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
     event.preventDefault();
    
     const credentials = this.loginModel();
-    console.log('Logging in with:', credentials);
-    // e.g., await this.authenticationService.login(credentials);
     this.authenticationService
       .login(credentials)
       .then(data => {
-        console.log('Login successful, token:', data);
+        
         const redirectUrl =
           sessionStorage.getItem('redirect_after_login') || '/';
         sessionStorage.removeItem('redirect_after_login');
