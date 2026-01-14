@@ -23,8 +23,20 @@ class UserSeeder extends Seeder
             ['username' => 'emmapeeters', 'email' => 'emma.peeters@hotmail.com', 'password_hash' => Hash::make('password123'), 'role_id' => 3],
         ];
 
-        foreach ($users as $user) {
-            User::create($user);
+        foreach ($users as $userData) {
+            $user = User::create($userData);
+            
+            // Subscribe rangers to locations
+            if ($userData['role_id'] === 2) {
+                // Sophie monitors Hoge Kempen (1), Zoniënwoud (2), and Hallerbos (3)
+                if ($userData['username'] === 'sophiedevries') {
+                    $user->subscribedLocations()->attach([1, 2, 3]);
+                }
+                // Pieter monitors Meerdaalwoud (5), Kalmthoutse Heide (6), and Mechelse Heide (11)
+                if ($userData['username'] === 'pieterjacobs') {
+                    $user->subscribedLocations()->attach([5, 6, 11]);
+                }
+            }
         }
     }
 }
