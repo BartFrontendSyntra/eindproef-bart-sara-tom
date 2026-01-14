@@ -49,10 +49,10 @@
       <div class="modal-footer bg-light d-flex justify-content-between">
         @if (canModifyStatus()) {
           <div>
-            <button type="button" class="btn btn-success me-2" (click)="obs.id && verifyObservation(obs.id)">
+            <button type="button" class="btn btn-success me-2" [disabled]="!obs.id" (click)="verifyObservation(obs.id)">
               <i class="bi bi-check-circle"></i> Verify
             </button>
-            <button type="button" class="btn btn-warning" (click)="obs.id && flagObservation(obs.id)">
+            <button type="button" class="btn btn-warning" [disabled]="!obs.id" (click)="flagObservation(obs.id)">
               <i class="bi bi-flag"></i> Flag
             </button>
           </div>
