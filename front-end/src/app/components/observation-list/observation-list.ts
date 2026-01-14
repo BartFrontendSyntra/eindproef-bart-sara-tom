@@ -66,7 +66,15 @@ export class ObservationList implements OnInit {
   }
   
   getStatusBadgeClass(status?: string) {
-    return status?.toLowerCase() === 'resolved' ? 'bg-success' : 'bg-warning text-dark';
+    const statusCase = status?.toLowerCase();
+    switch(statusCase) {
+      case 'verified':
+        return 'bg-success';
+      case 'flagged':
+        return 'bg-danger';
+      default:
+        return 'bg-warning text-dark';
+    }
   }
 
   verifyObservation(id: number) {
