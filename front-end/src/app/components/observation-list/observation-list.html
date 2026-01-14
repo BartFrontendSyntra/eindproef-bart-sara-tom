@@ -47,14 +47,16 @@
       </div>
 
       <div class="modal-footer bg-light d-flex justify-content-between">
-        <div>
-          <button type="button" class="btn btn-success me-2" (click)="verifyObservation(obs.id)">
-            <i class="bi bi-check-circle"></i> Verify
-          </button>
-          <button type="button" class="btn btn-warning" (click)="flagObservation(obs.id)">
-            <i class="bi bi-flag"></i> Flag
-          </button>
-        </div>
+        @if (canModifyStatus()) {
+          <div>
+            <button type="button" class="btn btn-success me-2" (click)="obs.id && verifyObservation(obs.id)">
+              <i class="bi bi-check-circle"></i> Verify
+            </button>
+            <button type="button" class="btn btn-warning" (click)="obs.id && flagObservation(obs.id)">
+              <i class="bi bi-flag"></i> Flag
+            </button>
+          </div>
+        }
         <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { Component, inject, signal, OnInit,viewChild, ElementRef, effect } from '@angular/core';
 import { ObservationService, Observation } from '../../services/observation-service';
+import { AuthenticationService } from '../../services/authentication-service';
 
 @Component({
   selector: 'app-observation-list',
@@ -9,6 +10,7 @@ import { ObservationService, Observation } from '../../services/observation-serv
 })
 export class ObservationList implements OnInit {
   observationService = inject(ObservationService);
+  authService = inject(AuthenticationService);
   observations = signal<Observation[]>([]);
 
   activeObservation = signal<Observation | null>(null);
@@ -101,6 +103,11 @@ export class ObservationList implements OnInit {
       hour: '2-digit',
       minute: '2-digit'
     });
+  }
+
+  canModifyStatus(): boolean {
+    const role = this.authService.getUserRole();
+    return role === 'Ranger' || role === 'Admin';
   }
 
 }
