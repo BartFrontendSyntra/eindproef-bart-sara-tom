@@ -181,9 +181,11 @@ Route::post('/locations', function (Request $request) {
 
 /**
  * GET /api/observations
- * Get all observations with user data
+ * Get observations made by the authenticated user OR from locations they're subscribed to
  */
-Route::get('/observations', function () {
+Route::middleware('auth:sanctum')->get('/observations', function (Request $request) {
+    $userId = $request->user()->id;
+    
     $observations = DB::select('
         SELECT 
             o.id,
@@ -203,8 +205,14 @@ Route::get('/observations', function () {
         JOIN users u ON o.user_id = u.id
         LEFT JOIN locations l ON o.location_id = l.id
         LEFT JOIN location_types lt ON l.location_type_id = lt.id
+        WHERE o.user_id = ? 
+           OR o.location_id IN (
+               SELECT location_id 
+               FROM location_user 
+               WHERE user_id = ?
+           )
         ORDER BY o.created_at DESC
-    ');
+    ', [$userId, $userId]);
     
     return response()->json($observations);
 });
