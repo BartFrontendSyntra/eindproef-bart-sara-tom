@@ -39,8 +39,26 @@ export class ObservationService {
         });
     }
 
+    updateObservation(id: number, updates: Partial<Observation>): Promise<any> {
+        return fetch(`${this.apiUrl}/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${sessionStorage.getItem('auth_token')}`
+            },
+            body: JSON.stringify(updates),
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Failed to update observation');
+            }
+            return response.json();
+        });
+    }
+
 }
 export interface Observation {
+    id?: number;
     username?: string;
     userEmail?: string;
     created_at?: string;
@@ -49,4 +67,6 @@ export interface Observation {
     latitude: number;
     photo_url: string;
     location_id: string;
+    location_name?: string;
+    status?: string;
 }

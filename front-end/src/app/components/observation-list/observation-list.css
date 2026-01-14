@@ -1,0 +1,28 @@
+/* Table Styles */
+.clickable-row {
+  cursor: pointer;
+}
+
+.obs-text-cell {
+  max-width: 250px; /* Moved from inline style */
+}
+
+/* Modal Styles */
+.obs-modal {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  width: 90%;
+  max-width: 500px;
+  margin: auto; /* Centers the dialog */
+}
+
+.obs-modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+/* Ensure the modal content expands properly */
+.modal-content {
+  min-width: 100%;
+}

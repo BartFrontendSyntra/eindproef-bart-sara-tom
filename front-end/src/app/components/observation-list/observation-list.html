@@ -1,37 +1,64 @@
-
 <table class="table table-hover">
-  <thead>
+  <thead class="table-light">
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">observation</th>
       <th scope="col">Observation</th>
       <th scope="col">Observer</th>
-      <th scope="col">img</th>
       <th scope="col">Location</th>
+      <th scope="col">Status</th>
     </tr>
   </thead>
   <tbody>
     @for (observation of observations(); track $index) {
-
-        <tr>
-            <th scope="row">{{ $index + 1 }}</th>
-            <td>{{ observation.observation_text }}</td>
-            <td>{{observation.username}}</td>
-            <td>{{ observation.created_at | date:'short' }}</td>
-            <td>
-            <img
-                [src]="observation.photo_url"
-                alt="observation photo"
-                width="100"
-            />
-            </td>
-            <td>
-                <a [href]="'https://www.google.com/maps/search/?api=1&query=' + observation.latitude + ',' + observation.longitude" target="_blank">
-                    View on Maps
-                </a>
-            </td>
-        </tr>
-
+      <tr (click)="activeObservation.set(observation)" class="clickable-row">
+        <td class="obs-text-cell text-truncate">
+          {{ observation.observation_text }}
+        </td>
+        <td>{{ observation.username || 'N/A' }}</td>
+        <td>{{ observation.location_name }}</td>
+        <td>
+          <span class="badge" [class]="getStatusBadgeClass(observation.status)">
+            {{ observation.status }}
+          </span>
+        </td>
+      </tr>
     }
   </tbody>
 </table>
+<dialog #obsDialog (close)="close()" class="obs-modal">
+  @if (activeObservation(); as obs) {
+    <div class="modal-content border-0">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title">Field Report</h5>
+        <button type="button" class="btn-close btn-close-white" (click)="close()"></button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="ratio ratio-16x9 mb-3">
+          <img [src]="obs.photo_url" class="rounded object-fit-cover" alt="Field Photo">
+        </div>
+        
+        <div class="mb-3">
+          <label class="text-muted small fw-bold">CREATED</label>
+          <p class="mb-0">{{ formatDate(obs.created_at) }}</p>
+        </div>
+        
+        <label class="text-muted small fw-bold">OBSERVATION</label>
+        <p class="p-2 bg-light border rounded">{{ obs.observation_text }}</p>
+      </div>
+
+      <div class="modal-footer bg-light d-flex justify-content-between">
+        @if (canModifyStatus()) {
+          <div>
+            <button type="button" class="btn btn-success me-2" [disabled]="!obs.id" (click)="obs.id && verifyObservation(obs.id)">
+              <i class="bi bi-check-circle"></i> Verify
+            </button>
+            <button type="button" class="btn btn-warning" [disabled]="!obs.id" (click)="obs.id && flagObservation(obs.id)">
+              <i class="bi bi-flag"></i> Flag
+            </button>
+          </div>
+        }
+        <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+      </div>
+    </div>
+  }
+</dialog>
