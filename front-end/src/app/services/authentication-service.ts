@@ -27,8 +27,9 @@ export class AuthenticationService {
         return response.json();
       })
       .then((data) => {
+        console.log('Login successful:', data);
         sessionStorage.setItem('auth_token', data.token);
-        sessionStorage.setItem('user_role', data.role);
+        sessionStorage.setItem('user_role', data.user.role.role_name);
         return data;
       });
   }
