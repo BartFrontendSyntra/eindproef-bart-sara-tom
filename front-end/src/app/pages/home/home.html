@@ -1,3 +1,16 @@
+@if(authenticationService.getUserRole() === 'Ranger') {
+  <div class="container py-4">
+  <!-- welcome ranger -->
+    <div class="page-header mb-4 text-center">
+      <h2 class="fw-semibold mb-1">Welcome, Ranger 🏹</h2>
+      <p class="mb-0">Take a look at the state of your forests — and choose where to go from there.</p>
+    </div>
+
+  <!-- dashboard -->
+    <app-ranger-dashboard></app-ranger-dashboard>
+  </div>
+ }
+ @else {
 <div class="container py-4">
 
   <!-- welcome banner -->
@@ -46,3 +59,4 @@
 
     </div>
 </div>
+ }

@@ -27,7 +27,9 @@ export class AuthenticationService {
         return response.json();
       })
       .then((data) => {
+        console.log('Login successful:', data);
         sessionStorage.setItem('auth_token', data.token);
+        sessionStorage.setItem('user_role', data.user.role.role_name);
         return data;
       });
   }
@@ -67,6 +69,10 @@ export class AuthenticationService {
   isLoggedIn(): boolean {
     return sessionStorage.getItem('auth_token') !== null;
   }
+
+  getUserRole(): string | null {
+    return sessionStorage.getItem('user_role');
+  } 
 
 
 }
