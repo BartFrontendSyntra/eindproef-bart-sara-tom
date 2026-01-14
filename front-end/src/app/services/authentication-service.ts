@@ -69,6 +69,10 @@ export class AuthenticationService {
     return sessionStorage.getItem('auth_token') !== null;
   }
 
+  getUserRole(): string | null {
+    return sessionStorage.getItem('user_role');
+  } 
+
 
 }
 interface User {
