@@ -1,48 +1,67 @@
 <table ngGrid class="basic-data-table">
   <thead>
-    <tr >
-      <th >
-        <!-- <button
-          class="sort-button"
-          aria-label="Sort by ID"
-          (click)="sortObservationsById()"
-        >
-          ID
-          <span
-            class="material-symbols-outlined"
-            translate="no"
-          >
-             {{ sortAscending ? 'arrow_upward' : 'arrow_downward' }} 
-          </span>
-        </button> -->
-        ID
-      </th>
-      <th ngGridCell>user</th>
-      <th ngGridCell>created at</th>
-      <th ngGridCell>observation text</th>
-      <th ngGridCell>location</th>
-        <th ngGridCell>photo url</th>
-        <th ngGridCell>location</th>
-        <th ngGridCell>status</th>
+    <tr>
+      <th>ID</th>
+      <th>user</th>
+      <th>created at</th>
+      <th>observation text</th>
+      <th>location</th>
+      <th>photo url</th>
+      <th>status</th>
+      <th>edit</th>
     </tr>
   </thead>
   <tbody>
     @for (observation of observations(); track observation.id) {
-      <tr ngGridRow>
-        <td ngGridCell>{{ observation.id }}</td>
-        <td ngGridCell>{{ observation.username }}</td>
-        <td ngGridCell>{{ observation.created_at }}</td>
+    <tr [class.editing]="editingId() === observation.id">
+      <td>{{ observation.id }}</td>
+      <td>{{ observation.username }}</td>
+      <td>{{ observation.created_at }}</td>
 
-        <td ngGridCell class="observation-text-cell">
-           
-                <div contenteditable>{{ observation.observation_text }}</div>
+      <td>
+        @if (tempEditModel()?.id === observation.id) {
+        <input [(ngModel)]="tempEditModel()!.observation_text" />
+        } @else {
+        {{ observation.observation_text }}
+        }
+      </td>
 
-        </td>
-        <td >{{ observation.location_name }}</td>
-        <td >{{ observation.photo_url }}</td>
-        <td >{{ observation.status }}</td>
-        
-      </tr>
+      <td>
+      @if (tempEditModel()?.id === observation.id) {
+        <select [(ngModel)]="tempEditModel()!.location_name">
+          @for (loc of locations(); track loc) {
+            <option [value]="loc">{{ loc }}</option>
+          }
+        </select>
+      } @else {
+        {{ observation.location_name }}
+      }
+    </td>
+
+      <td>{{ observation.photo_url }}</td>
+      <td>
+        @if (tempEditModel()?.id === observation.id) {
+        <select [(ngModel)]="tempEditModel()!.status">
+          @for (st of statuses(); track st) {
+          <option [value]="st">{{ st }}</option>
+          }
+        </select>
+        } @else {
+
+        {{ observation.status }}
+
+        }
+      </td>
+
+      <td>
+        @if (editingId() === observation.id) {
+        <button (click)="updateObservation(observation)">Save</button>
+        <button (click)="cancelEdit()">Cancel</button>
+        } @else {
+        <button (click)="startEdit(observation.id || -1)">Edit</button>
+        }
+      </td>
+    </tr>
     }
   </tbody>
 </table>

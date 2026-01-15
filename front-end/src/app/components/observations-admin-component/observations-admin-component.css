@@ -1,0 +1,5 @@
+tr.editing {
+  background-color: #f0f7ff; /* Light blue highlight */
+  border-left: 4px solid #007bff; /* Blue accent bar */
+  font-weight: 500;
+}
