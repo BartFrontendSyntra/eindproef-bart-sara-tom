@@ -33,14 +33,14 @@
       <td>{{ user.created_at }}</td>
       <td>
         @if (tempEditModel()?.id === user.id) {
-        <select [(ngModel)]="tempEditModel()!.role">
-          @for (role of roles(); track role) {
-          <option [value]="role">{{ role }}</option>
+        <select [(ngModel)]="tempEditModel()!.role_id">
+          @for (role of roles(); track role.id) {
+          <option [value]="role.id">{{ role.role_name }}</option>
           }
         </select>
         } @else {
 
-        {{ user.role }}
+        {{ user.role.role_name }}
 
         }
       </td>
