@@ -182,37 +182,66 @@ Route::post('/locations', function (Request $request) {
 /**
  * GET /api/observations
  * Get observations made by the authenticated user OR from locations they're subscribed to
+ * Admins get all observations
  */
 Route::middleware('auth:sanctum')->get('/observations', function (Request $request) {
-    $userId = $request->user()->id;
+    $user = $request->user();
+    $userId = $user->id;
     
-    $observations = DB::select('
-        SELECT 
-            o.id,
-            o.user_id,
-            ST_X(o.coordinates) as longitude,
-            ST_Y(o.coordinates) as latitude,
-            o.observation_text,
-            o.photo_url,
-            o.status,
-            o.location_id,
-            o.created_at,
-            u.username,
-            u.email,
-            l.name as location_name,
-            lt.type_name as location_type
-        FROM observations o
-        JOIN users u ON o.user_id = u.id
-        LEFT JOIN locations l ON o.location_id = l.id
-        LEFT JOIN location_types lt ON l.location_type_id = lt.id
-        WHERE o.user_id = ? 
-           OR o.location_id IN (
-               SELECT location_id 
-               FROM location_user 
-               WHERE user_id = ?
-           )
-        ORDER BY o.created_at DESC
-    ', [$userId, $userId]);
+    // Check if user is Admin
+    if ($user->role->role_name === 'Admin') {
+        // Admins get all observations
+        $observations = DB::select('
+            SELECT 
+                o.id,
+                o.user_id,
+                ST_X(o.coordinates) as longitude,
+                ST_Y(o.coordinates) as latitude,
+                o.observation_text,
+                o.photo_url,
+                o.status,
+                o.location_id,
+                o.created_at,
+                u.username,
+                u.email,
+                l.name as location_name,
+                lt.type_name as location_type
+            FROM observations o
+            JOIN users u ON o.user_id = u.id
+            LEFT JOIN locations l ON o.location_id = l.id
+            LEFT JOIN location_types lt ON l.location_type_id = lt.id
+            ORDER BY o.created_at DESC
+        ');
+    } else {
+        // Regular users get their own observations or from subscribed locations
+        $observations = DB::select('
+            SELECT 
+                o.id,
+                o.user_id,
+                ST_X(o.coordinates) as longitude,
+                ST_Y(o.coordinates) as latitude,
+                o.observation_text,
+                o.photo_url,
+                o.status,
+                o.location_id,
+                o.created_at,
+                u.username,
+                u.email,
+                l.name as location_name,
+                lt.type_name as location_type
+            FROM observations o
+            JOIN users u ON o.user_id = u.id
+            LEFT JOIN locations l ON o.location_id = l.id
+            LEFT JOIN location_types lt ON l.location_type_id = lt.id
+            WHERE o.user_id = ? 
+               OR o.location_id IN (
+                   SELECT location_id 
+                   FROM location_user 
+                   WHERE user_id = ?
+               )
+            ORDER BY o.created_at DESC
+        ', [$userId, $userId]);
+    }
     
     return response()->json($observations);
 });
