@@ -87,6 +87,7 @@ tr.editing {
   cursor: pointer;
   transition: all 0.2s ease;
   text-transform: uppercase;
+  color: white;
   letter-spacing: 0.5px;
 }
 
@@ -102,7 +103,7 @@ tr.editing {
 
 .basic-data-table button:last-of-type {
   background-color: #e5e7eb;
-  color: #374151;
+  color: white;
 }
 
 .basic-data-table button:last-of-type:hover {
