@@ -1,1 +1,48 @@
-<p>observations-admin-component works!</p>
+<table ngGrid class="basic-data-table">
+  <thead>
+    <tr >
+      <th >
+        <!-- <button
+          class="sort-button"
+          aria-label="Sort by ID"
+          (click)="sortObservationsById()"
+        >
+          ID
+          <span
+            class="material-symbols-outlined"
+            translate="no"
+          >
+             {{ sortAscending ? 'arrow_upward' : 'arrow_downward' }} 
+          </span>
+        </button> -->
+        ID
+      </th>
+      <th ngGridCell>user</th>
+      <th ngGridCell>created at</th>
+      <th ngGridCell>observation text</th>
+      <th ngGridCell>location</th>
+        <th ngGridCell>photo url</th>
+        <th ngGridCell>location</th>
+        <th ngGridCell>status</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (observation of observations(); track observation.id) {
+      <tr ngGridRow>
+        <td ngGridCell>{{ observation.id }}</td>
+        <td ngGridCell>{{ observation.username }}</td>
+        <td ngGridCell>{{ observation.created_at }}</td>
+
+        <td ngGridCell class="observation-text-cell">
+           
+                <div contenteditable>{{ observation.observation_text }}</div>
+
+        </td>
+        <td >{{ observation.location_name }}</td>
+        <td >{{ observation.photo_url }}</td>
+        <td >{{ observation.status }}</td>
+        
+      </tr>
+    }
+  </tbody>
+</table>
