@@ -400,6 +400,26 @@ Route::put('/observations/{id}', function (Request $request, $id) {
 })->middleware('auth:sanctum');
 
 /**
+ * GET /api/users
+ * Get all users
+ * Only accessible to Admins
+ */
+Route::get('/users', function (Request $request) {
+    // Check if user has Admin role
+    $user = $request->user();
+    
+    if ($user->role->role_name !== 'Admin') {
+        return response()->json([
+            'message' => 'Unauthorized. Only Admins can view all users.'
+        ], 403);
+    }
+
+    $users = User::with('role')->get();
+    
+    return response()->json($users);
+})->middleware('auth:sanctum');
+
+/**
  * GET /api/users/{id}
  * Get user details with role
  */
@@ -418,6 +438,39 @@ Route::get('/users/{id}', function ($id) {
         'created_at' => $user->created_at,
     ]);
 });
+
+/**
+ * PUT /api/users/{id}
+ * Update a user
+ * Only accessible to Admins
+ * Expects: username, email, role_id
+ */
+Route::put('/users/{id}', function (Request $request, $id) {
+    // Check if user has Admin role
+    $user = $request->user();
+    
+    if ($user->role->role_name !== 'Admin') {
+        return response()->json([
+            'message' => 'Unauthorized. Only Admins can update users.'
+        ], 403);
+    }
+
+    $targetUser = User::find($id);
+    
+    if (!$targetUser) {
+        return response()->json(['message' => 'User not found'], 404);
+    }
+
+    $validated = $request->validate([
+        'username' => 'sometimes|required|string|max:255|unique:users,username,' . $id,
+        'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $id,
+        'role_id' => 'sometimes|required|exists:roles,id',
+    ]);
+
+    $targetUser->update($validated);
+    
+    return response()->json($targetUser->load('role'));
+})->middleware('auth:sanctum');
 
 /**
  * GET /api/users/{id}/observations
