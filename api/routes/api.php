@@ -180,6 +180,38 @@ Route::post('/locations', function (Request $request) {
 })->middleware('auth:sanctum');
 
 /**
+ * PUT /api/locations/{id}
+ * Update a location
+ * Only accessible to Admins
+ * Expects: name, location_type_id
+ */
+Route::put('/locations/{id}', function (Request $request, $id) {
+    // Check if user has Admin role
+    $user = $request->user();
+    
+    if ($user->role->role_name !== 'Admin') {
+        return response()->json([
+            'message' => 'Unauthorized. Only Admins can update locations.'
+        ], 403);
+    }
+
+    $location = Location::find($id);
+    
+    if (!$location) {
+        return response()->json(['message' => 'Location not found'], 404);
+    }
+
+    $validated = $request->validate([
+        'name' => 'sometimes|required|string|max:255',
+        'location_type_id' => 'sometimes|required|exists:location_types,id',
+    ]);
+
+    $location->update($validated);
+    
+    return response()->json($location);
+})->middleware('auth:sanctum');
+
+/**
  * GET /api/observations
  * Get observations made by the authenticated user OR from locations they're subscribed to
  * Admins get all observations
