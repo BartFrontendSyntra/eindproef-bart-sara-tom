@@ -54,8 +54,8 @@
       </td>
 
       <td>
-        @if (editingId() === observation.id) {
-        <button (click)="updateObservation(observation)">Save</button>
+        @if (tempEditModel()?.id === observation.id) {
+        <button (click)="updateObservation(tempEditModel()!.id || -1, tempEditModel()!)">Save</button>
         <button (click)="cancelEdit()">Cancel</button>
         } @else {
         <button (click)="startEdit(observation.id || -1)">Edit</button>

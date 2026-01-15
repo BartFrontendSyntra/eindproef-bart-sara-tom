@@ -54,12 +54,15 @@ export class ObservationsAdminComponent {
     this.tempEditModel.set(null);
   }
 
-  updateObservation(observation: Observation) {
+  updateObservation(id: number, observation: Observation) {
    const updatedData = this.tempEditModel();
     if (!updatedData) return;
 
     // Send updatedData to your API service
-    
+    this.observationService.updateObservation(id, updatedData).catch(error => {
+      console.error('Error updating observation:', error);
+      return;
+    });
 
     // On success, update the main signal list locally:
     this.observations.update(list => 
