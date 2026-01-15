@@ -23,9 +23,6 @@ export class ObservationsAdminComponent {
   }
   async loadObservations() {
     this.observationService.getObservations()
-    .then(obs => {console.log(obs)
-                  return obs;
-    } )
     .then(obs => this.observations.set(obs))
     .catch(error => console.error('Error loading observations:', error)); 
   }
