@@ -1,1 +1,59 @@
-<p>users-admin-component works!</p>
+<table class="basic-data-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>username</th>
+      <th>email</th>
+      <th>created at</th>
+      <th>role</th>
+      <th>edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (user of users(); track user.id) {
+    <tr [class.editing]="editingId() === user.id">
+      <td>{{ user.id }}</td>
+
+      <td>
+        @if (tempEditModel()?.id === user.id) {
+        <input [(ngModel)]="tempEditModel()!.username" />
+        } @else {
+        {{ user.username }}
+        }
+      </td>
+
+      <td>
+        @if (tempEditModel()?.id === user.id) {
+        <input [(ngModel)]="tempEditModel()!.email" />
+        } @else {
+        {{ user.email }}
+        }
+      </td>
+
+      <td>{{ user.created_at }}</td>
+      <td>
+        @if (tempEditModel()?.id === user.id) {
+        <select [(ngModel)]="tempEditModel()!.role">
+          @for (role of roles(); track role) {
+          <option [value]="role">{{ role }}</option>
+          }
+        </select>
+        } @else {
+
+        {{ user.role }}
+
+        }
+      </td>
+
+      <td>
+        @if (tempEditModel()?.id === user.id) {
+        <button (click)="updateUser(tempEditModel()!.id || -1, tempEditModel()!)">Save</button>
+        <button (click)="cancelEdit()">Cancel</button>
+        } @else {
+        <button (click)="startEdit(user.id || -1)">Edit</button>
+        }
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>
