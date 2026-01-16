@@ -141,6 +141,7 @@ use App\Models\Role;
 use App\Models\Location;
 use App\Models\LocationType;
 use App\Models\Observation;
+use App\Http\Controllers\CommentController;
 
 /**
  * GET /api/roles
@@ -587,6 +588,44 @@ Route::get('/locations/{id}/subscribers', function ($id) {
     
     return response()->json($location->subscribers);
 })->middleware('auth:sanctum');
+
+// ============================================
+// COMMENT ROUTES
+// ============================================
+
+/**
+ * GET /api/observations/{observation_id}/comments
+ * Get comments for an observation
+ * - Visitors: only public comments
+ * - Rangers: all comments
+ * - Admins: all comments
+ */
+Route::get('/observations/{observation_id}/comments', [CommentController::class, 'index']);
+
+/**
+ * POST /api/observations/{observation_id}/comments
+ * Create a new comment
+ * - Visitors: can create public comments only
+ * - Rangers and Admins: can create public or private comments
+ * Expects: body, is_public
+ */
+Route::post('/observations/{observation_id}/comments', [CommentController::class, 'store'])
+    ->middleware('auth:sanctum');
+
+/**
+ * PUT /api/comments/{id}
+ * Update a comment (Admins only)
+ * Expects: body, is_public (optional)
+ */
+Route::put('/comments/{id}', [CommentController::class, 'update'])
+    ->middleware('auth:sanctum');
+
+/**
+ * DELETE /api/comments/{id}
+ * Delete a comment (Admins only)
+ */
+Route::delete('/comments/{id}', [CommentController::class, 'destroy'])
+    ->middleware('auth:sanctum');
 
 //     return response()->json($observations);
 // })->middleware('auth:sanctum');

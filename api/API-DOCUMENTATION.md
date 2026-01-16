@@ -455,14 +455,112 @@ Server will run at: `http://127.0.0.1:8000`
 
 ---
 
-## Sample Users
+## Comments
 
-All users have password: `password123`
+### Get Comments for an Observation
+**GET** `/api/observations/{observation_id}/comments`
 
-| Username | Email | Role |
-|----------|-------|------|
-| janvermeulen | jan.vermeulen@forestmaster.be | Admin |
-| sophiedevries | sophie.devries@forestmaster.be | Ranger |
+Returns comments for a specific observation.
+- **Visitors**: Only public comments
+- **Rangers**: All comments (public and private)
+- **Admins**: All comments (public and private)
+
+**No authentication required** (but permissions differ based on role)
+
+**Response:**
+```json
+[
+  {
+    "id": 1,
+    "observation_id": 5,
+    "user_id": 2,
+    "body": "This is a verified sighting of the species.",
+    "is_public": true,
+    "created_at": "2026-01-16T10:30:00.000000Z",
+    "user": {
+      "id": 2,
+      "username": "sophiedevries"
+    }
+  }
+]
+```
+
+### Create Comment
+**POST** `/api/observations/{observation_id}/comments`
+
+**Requires**: Authentication (All authenticated users)
+- **Visitors**: Can only create public comments (`is_public` must be `true`)
+- **Rangers & Admins**: Can create both public and private comments
+
+**Request Body:**
+```json
+{
+  "body": "This is a comment on the observation",
+  "is_public": true
+}
+```
+
+**Response:**
+```json
+{
+  "id": 1,
+  "observation_id": 5,
+  "user_id": 2,
+  "body": "This is a comment on the observation",
+  "is_public": true,
+  "created_at": "2026-01-16T10:30:00.000000Z",
+  "user": {
+    "id": 2,
+    "username": "sophiedevries"
+  }
+}
+```
+
+### Update Comment
+**PUT** `/api/comments/{id}`
+
+**Requires**: Authentication (Admins only)
+
+**Request Body:**
+```json
+{
+  "body": "Updated comment text",
+  "is_public": false
+}
+```
+
+Both fields are optional.
+
+**Response:**
+```json
+{
+  "id": 1,
+  "observation_id": 5,
+  "user_id": 2,
+  "body": "Updated comment text",
+  "is_public": false,
+  "created_at": "2026-01-16T10:30:00.000000Z",
+  "user": {
+    "id": 2,
+    "username": "sophiedevries"
+  }
+}
+```
+
+### Delete Comment
+**DELETE** `/api/comments/{id}`
+
+**Requires**: Authentication (Admins only)
+
+**Response:**
+```json
+{
+  "message": "Comment deleted successfully"
+}
+```
+
+---
+
 | pieterjacobs | pieter.jacobs@gmail.com | Ranger |
 | marieclaessens | marie.claessens@outlook.com | Visitor |
 | lucwouters | luc.wouters@gmail.com | Visitor |

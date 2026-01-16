@@ -29,6 +29,16 @@ class Observation extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     // Helper methods for working with coordinates
     public function setCoordinatesAttribute($value)
     {
@@ -48,8 +58,4 @@ class Observation extends Model
         return null;
     }
 
-    public function location()
-{
-    return $this->belongsTo(Location::class);
-}
 }

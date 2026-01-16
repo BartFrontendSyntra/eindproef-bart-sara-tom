@@ -73,6 +73,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Observation::class);
     }
+
+    /**
+     * Get the comments authored by the user.
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     /**
      * The locations that the user is subscribed to.
      */
