@@ -61,6 +61,14 @@ export class AuthenticationService {
       });
   }
 
+  checkUsernameAvailable(username: string): Promise<boolean> {
+    return fetch(
+      `http://localhost:8000/api/username-available?username=${encodeURIComponent(username)}`
+    )
+      .then(res => res.json())
+      .then(data => data.available);
+  }
+
   logout(): void {
     sessionStorage.removeItem('auth_token');
   }

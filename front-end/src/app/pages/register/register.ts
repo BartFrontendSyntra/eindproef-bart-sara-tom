@@ -14,7 +14,10 @@ import { CommonModule } from '@angular/common';
 
 export class Register {
 
+private usernameCheckTimeout: any;
+
 constructor() {
+  // blocking spaces in username and forcibly removing them
   effect(() => {
     const model = this.registerModel();
     if (model.username.includes(' ')) {
@@ -24,7 +27,34 @@ constructor() {
       }));
     }
   });
+  // username availability check, STILL HAS TO BE CLEANED UP
+  effect(() => {
+    const username = this.registerModel().username.trim();
+
+    this.usernameAvailable.set(null);
+
+    if (username.length < 3) return;
+
+    clearTimeout(this.usernameCheckTimeout);
+
+    this.usernameCheckTimeout = setTimeout(() => {
+      this.checkingUsername.set(true);
+
+      this.authenticationService
+        .checkUsernameAvailable(username)
+        .then(available => {
+          this.usernameAvailable.set(available);
+        })
+        .catch(() => {
+          this.usernameAvailable.set(null);
+        })
+        .finally(() => {
+          this.checkingUsername.set(false);
+        });
+    }, 400); // debounce?
+  });
 }
+
 
 authenticationService: AuthenticationService = inject(AuthenticationService);
   router: Router = inject(Router);
@@ -56,6 +86,9 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
         password !== password_confirmation;
   });
 
+  usernameAvailable = signal<boolean | null>(null);
+  checkingUsername = signal(false);
+
   onSubmit(event: Event) {
     event.preventDefault();
    
@@ -84,7 +117,7 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
       .catch((error: any) => {
         console.error('Registration or login failed:', error);
         if (error?.error) {
-          this.toastMessage.set(error.error);   // error reading and setting it as toast message (invalig username or email)
+          this.toastMessage.set(error.error);   // error reading and setting it as toast message (invalid username or email)
           this.showToast.set(true);
           setTimeout(() => this.showToast.set(false), 3000);
           return;

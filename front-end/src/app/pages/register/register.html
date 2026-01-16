@@ -11,6 +11,8 @@
             <div class="form-floating">
               <input type="text" class="form-control" id="floatingInputUser" placeholder="Username" [field]="registerForm.username" (keydown.space)="$event.preventDefault()">
               <label for="floatingInputUser">Username</label>
+              <label for="floatingPasswordConfirmation" [hidden]="!usernameAvailable() === true">Username available ✔</label>
+              <label for="floatingPasswordConfirmation" [hidden]="!usernameAvailable() === false" class="text-danger">Username taken ✖</label>
             </div>
             <div class="form-floating">
               <input type="text" class="form-control" id="floatingInputMail" placeholder="E-mail" [field]="registerForm.email" (keydown.space)="$event.preventDefault()">
