@@ -26,7 +26,7 @@
 </table>
 <dialog #obsDialog (close)="close()" class="obs-modal">
   @if (activeObservation(); as obs) {
-    <div class="modal-content border-0">
+    <div class="modal-content border-1">
       <div class="modal-header bg-dark text-white">
         <h5 class="modal-title">Field Report</h5>
         <button type="button" class="btn-close btn-close-white" (click)="close()"></button>
@@ -58,6 +58,9 @@
           </div>
         }
         <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+        
+      </div>
+      <div>
         <app-observation-comments [observationId]="obs.id"></app-observation-comments>
       </div>
     </div>
