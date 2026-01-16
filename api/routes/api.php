@@ -54,6 +54,25 @@ Route::post('/register', function (Request $request) {
     }
 });
 
+
+/**
+ * GET /api/username-availability
+ * 
+ * Expects: username
+ * Returns: string: available???
+ */
+Route::get('/username-available', function (Request $request) {
+    $request->validate([
+        'username' => 'required|string',
+    ]);
+
+    $exists = User::where('username', $request->username)->exists();
+
+    return response()->json([
+        'available' => !$exists,
+    ]);
+});
+
 /**
  * POST /api/login
  * 
