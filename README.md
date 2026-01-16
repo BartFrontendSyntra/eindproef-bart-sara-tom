@@ -219,3 +219,135 @@ Access the application at `http://localhost:4200`, which will communicate with t
   - Verify SSL/TLS requirements (some cloud databases require SSL connections)
   - Check if the database user has proper permissions for remote access
 
+## Demo Users and Usage Guide
+
+After seeding the database, you can test the application with different user roles. All demo users have the password: `password123`
+
+### Admin User
+
+**Username**: `janvermeulen`  
+**Email**: jan.vermeulen@forestmaster.be  
+**Password**: password123
+
+**Login URL**: `http://localhost:4200/admin-login`
+
+**Capabilities**:
+- View all observations across all locations
+- Verify or flag observations to change their status
+- Full administrative access to the system
+- Access to admin dashboard
+
+**How to use**:
+1. Navigate to `http://localhost:4200/admin-login`
+2. Log in with the admin credentials
+3. Access the admin dashboard at `http://localhost:4200/admin-dashboard`
+4. Browse all observations from the observation list
+5. Click on an observation to view details and photo
+6. Use the "Verify" or "Flag" buttons to change observation status
+
+**Available Pages**:
+- `/admin-dashboard` - Administrative dashboard
+
+---
+
+### Ranger Users
+
+#### Ranger 1 - Sophie de Vries
+**Username**: `sophiedevries`  
+**Email**: sophie.devries@forestmaster.be  
+**Password**: password123  
+**Monitored Locations**: Hoge Kempen, Zoniënwoud, Hallerbos
+
+#### Ranger 2 - Pieter Jacobs
+**Username**: `pieterjacobs`  
+**Email**: pieter.jacobs@gmail.com  
+**Password**: password123  
+**Monitored Locations**: Meerdaalwoud, Kalmthoutse Heide, Mechelse Heide
+
+**Login URL**: `http://localhost:4200/login`
+
+**Capabilities**:
+- View all observations across all locations (like admin)
+- Verify or flag observations to change their status
+- Create public or private comments on observations
+- Subscribe to specific locations for monitoring
+
+**How to use**:
+1. Navigate to `http://localhost:4200/login`
+2. Log in with ranger credentials
+3. Browse observations from all locations
+4. Click on observations to view details
+5. Verify legitimate observations or flag suspicious ones
+6. Add comments with choice of public or private visibility
+7. Focus on monitoring your subscribed locations
+
+**Available Pages**:
+- `/` - Home page with observations
+- `/observation` - Observation list
+- `/map` - Map view of locations
+- `/messages` - Messages
+- `/whatshere` - Location information
+- `/about` - About page
+
+---
+
+### Visitor Users
+
+**Available Visitors**:
+- **Username**: `marieclaessens` | Email: marie.claessens@outlook.com
+- **Username**: `lucwouters` | Email: luc.wouters@gmail.com
+- **Username**: `emmapeeters` | Email: emma.peeters@hotmail.com
+
+**Password** (for all): password123
+
+**Login URL**: `http://localhost:4200/login`  
+**Registration URL**: `http://localhost:4200/register` (for new visitors)
+
+**Capabilities**:
+- View all observations
+- View only public comments
+- Create observations with photos and descriptions
+- Add public comments only (private comments restricted)
+
+**How to use**:
+1. Navigate to `http://localhost:4200/login` (or register at `/register`)
+2. Log in with any visitor credentials
+3. Browse the observation list to see reports from the field
+4. Click on an observation to view details
+5. Add public comments to observations (only public comments allowed)
+6. Create new observations by submitting field reports with photos
+
+**Available Pages**:
+- `/` - Home page with observations
+- `/observation` - Observation list
+- `/map` - Map view of locations
+- `/messages` - Messages
+- `/whatshere` - Location information
+- `/about` - About page
+- `/register` - Registration page for new visitors
+
+---
+
+### Testing Different Scenarios
+
+1. **Comment Visibility Test**:
+   - Log in as a Ranger (sophiedevries) and add a private comment on an observation
+   - Log out and log in as a Visitor (marieclaessens)
+   - Notice that you can only see public comments
+
+2. **Observation Status Management**:
+   - Log in as a Ranger or Admin
+   - Click on a "pending" observation
+   - Use the "Verify" button to mark it as verified
+   - Use the "Flag" button to mark suspicious observations
+
+3. **Role-Based Comment Posting**:
+   - Log in as a Visitor - note you can only post public comments
+   - Log in as a Ranger - note the checkbox allowing you to choose public or private
+
+4. **Multi-Location Monitoring**:
+   - Log in as Sophie (ranger) who monitors Hoge Kempen, Zoniënwoud, and Hallerbos
+   - View observations from these locations
+   - Log in as Pieter (ranger) who monitors different locations
+   - Compare the observations relevant to each ranger's area
+
