@@ -49,7 +49,7 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
   showModal = signal(false);
   modalMessage = signal('');
 
-  passwordsMatch = computed(() => {
+  passwordsMismatch = computed(() => {
     const { password, password_confirmation } = this.registerModel();
     return password.length > 0 &&
         password_confirmation.length > 0 &&
