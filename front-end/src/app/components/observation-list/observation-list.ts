@@ -1,10 +1,11 @@
 import { Component, inject, signal, OnInit,viewChild, ElementRef, effect } from '@angular/core';
 import { ObservationService, Observation } from '../../services/observation-service';
 import { AuthenticationService } from '../../services/authentication-service';
+import { ObservationComments } from "../observation-comments/observation-comments";
 
 @Component({
   selector: 'app-observation-list',
-  imports: [],
+  imports: [ObservationComments],
   templateUrl: './observation-list.html',
   styleUrl: './observation-list.css',
 })
