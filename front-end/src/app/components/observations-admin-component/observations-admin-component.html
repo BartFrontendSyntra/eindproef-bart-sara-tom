@@ -1,1 +1,67 @@
-<p>observations-admin-component works!</p>
+<table class="basic-data-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>user</th>
+      <th>created at</th>
+      <th>observation text</th>
+      <th>location</th>
+      <th>photo url</th>
+      <th>status</th>
+      <th>edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (observation of observations(); track observation.id) {
+    <tr [class.editing]="editingId() === observation.id">
+      <td>{{ observation.id }}</td>
+      <td>{{ observation.username }}</td>
+      <td>{{ observation.created_at }}</td>
+
+      <td>
+        @if (tempEditModel()?.id === observation.id) {
+        <input [(ngModel)]="tempEditModel()!.observation_text" />
+        } @else {
+        {{ observation.observation_text }}
+        }
+      </td>
+
+      <td>
+      @if (tempEditModel()?.id === observation.id) {
+        <select [(ngModel)]="tempEditModel()!.location_name">
+          @for (loc of locations(); track loc) {
+            <option [value]="loc">{{ loc }}</option>
+          }
+        </select>
+      } @else {
+        {{ observation.location_name }}
+      }
+    </td>
+
+      <td>{{ observation.photo_url }}</td>
+      <td>
+        @if (tempEditModel()?.id === observation.id) {
+        <select [(ngModel)]="tempEditModel()!.status">
+          @for (st of statuses(); track st) {
+          <option [value]="st">{{ st }}</option>
+          }
+        </select>
+        } @else {
+
+        {{ observation.status }}
+
+        }
+      </td>
+
+      <td>
+        @if (tempEditModel()?.id === observation.id) {
+        <button (click)="updateObservation(tempEditModel()!.id || -1, tempEditModel()!)">Save</button>
+        <button (click)="cancelEdit()">Cancel</button>
+        } @else {
+        <button (click)="startEdit(observation.id || -1)">Edit</button>
+        }
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>

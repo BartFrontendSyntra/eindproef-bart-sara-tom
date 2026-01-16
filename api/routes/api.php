@@ -180,39 +180,100 @@ Route::post('/locations', function (Request $request) {
 })->middleware('auth:sanctum');
 
 /**
+ * PUT /api/locations/{id}
+ * Update a location
+ * Only accessible to Admins
+ * Expects: name, location_type_id
+ */
+Route::put('/locations/{id}', function (Request $request, $id) {
+    // Check if user has Admin role
+    $user = $request->user();
+    
+    if ($user->role->role_name !== 'Admin') {
+        return response()->json([
+            'message' => 'Unauthorized. Only Admins can update locations.'
+        ], 403);
+    }
+
+    $location = Location::find($id);
+    
+    if (!$location) {
+        return response()->json(['message' => 'Location not found'], 404);
+    }
+
+    $validated = $request->validate([
+        'name' => 'sometimes|required|string|max:255',
+        'location_type_id' => 'sometimes|required|exists:location_types,id',
+    ]);
+
+    $location->update($validated);
+    
+    return response()->json($location);
+})->middleware('auth:sanctum');
+
+/**
  * GET /api/observations
  * Get observations made by the authenticated user OR from locations they're subscribed to
+ * Admins get all observations
  */
 Route::middleware('auth:sanctum')->get('/observations', function (Request $request) {
-    $userId = $request->user()->id;
+    $user = $request->user();
+    $userId = $user->id;
     
-    $observations = DB::select('
-        SELECT 
-            o.id,
-            o.user_id,
-            ST_X(o.coordinates) as longitude,
-            ST_Y(o.coordinates) as latitude,
-            o.observation_text,
-            o.photo_url,
-            o.status,
-            o.location_id,
-            o.created_at,
-            u.username,
-            u.email,
-            l.name as location_name,
-            lt.type_name as location_type
-        FROM observations o
-        JOIN users u ON o.user_id = u.id
-        LEFT JOIN locations l ON o.location_id = l.id
-        LEFT JOIN location_types lt ON l.location_type_id = lt.id
-        WHERE o.user_id = ? 
-           OR o.location_id IN (
-               SELECT location_id 
-               FROM location_user 
-               WHERE user_id = ?
-           )
-        ORDER BY o.created_at DESC
-    ', [$userId, $userId]);
+    // Check if user is Admin
+    if ($user->role->role_name === 'Admin') {
+        // Admins get all observations
+        $observations = DB::select('
+            SELECT 
+                o.id,
+                o.user_id,
+                ST_X(o.coordinates) as longitude,
+                ST_Y(o.coordinates) as latitude,
+                o.observation_text,
+                o.photo_url,
+                o.status,
+                o.location_id,
+                o.created_at,
+                u.username,
+                u.email,
+                l.name as location_name,
+                lt.type_name as location_type
+            FROM observations o
+            JOIN users u ON o.user_id = u.id
+            LEFT JOIN locations l ON o.location_id = l.id
+            LEFT JOIN location_types lt ON l.location_type_id = lt.id
+            ORDER BY o.created_at DESC
+        ');
+    } else {
+        // Regular users get their own observations or from subscribed locations
+        $observations = DB::select('
+            SELECT 
+                o.id,
+                o.user_id,
+                ST_X(o.coordinates) as longitude,
+                ST_Y(o.coordinates) as latitude,
+                o.observation_text,
+                o.photo_url,
+                o.status,
+                o.location_id,
+                o.created_at,
+                u.username,
+                u.email,
+                l.name as location_name,
+                lt.type_name as location_type
+            FROM observations o
+            JOIN users u ON o.user_id = u.id
+            LEFT JOIN locations l ON o.location_id = l.id
+            LEFT JOIN location_types lt ON l.location_type_id = lt.id
+            WHERE o.user_id = ? 
+               OR o.location_id IN (
+                   SELECT location_id 
+                   FROM location_user 
+                   WHERE user_id = ?
+               )
+            ORDER BY o.created_at DESC
+        ', [$userId, $userId]);
+    }
     
     return response()->json($observations);
 });
@@ -339,6 +400,26 @@ Route::put('/observations/{id}', function (Request $request, $id) {
 })->middleware('auth:sanctum');
 
 /**
+ * GET /api/users
+ * Get all users
+ * Only accessible to Admins
+ */
+Route::get('/users', function (Request $request) {
+    // Check if user has Admin role
+    $user = $request->user();
+    
+    if ($user->role->role_name !== 'Admin') {
+        return response()->json([
+            'message' => 'Unauthorized. Only Admins can view all users.'
+        ], 403);
+    }
+
+    $users = User::with('role')->get();
+    
+    return response()->json($users);
+})->middleware('auth:sanctum');
+
+/**
  * GET /api/users/{id}
  * Get user details with role
  */
@@ -357,6 +438,39 @@ Route::get('/users/{id}', function ($id) {
         'created_at' => $user->created_at,
     ]);
 });
+
+/**
+ * PUT /api/users/{id}
+ * Update a user
+ * Only accessible to Admins
+ * Expects: username, email, role_id
+ */
+Route::put('/users/{id}', function (Request $request, $id) {
+    // Check if user has Admin role
+    $user = $request->user();
+    
+    if ($user->role->role_name !== 'Admin') {
+        return response()->json([
+            'message' => 'Unauthorized. Only Admins can update users.'
+        ], 403);
+    }
+
+    $targetUser = User::find($id);
+    
+    if (!$targetUser) {
+        return response()->json(['message' => 'User not found'], 404);
+    }
+
+    $validated = $request->validate([
+        'username' => 'sometimes|required|string|max:255|unique:users,username,' . $id,
+        'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $id,
+        'role_id' => 'sometimes|required|exists:roles,id',
+    ]);
+
+    $targetUser->update($validated);
+    
+    return response()->json($targetUser->load('role'));
+})->middleware('auth:sanctum');
 
 /**
  * GET /api/users/{id}/observations

@@ -58,6 +58,33 @@
   min-height: 500px;
 }
 
+.btn-logout {
+  position: absolute;
+  top: 2.25rem;
+  right: 2.25rem;
+  background: linear-gradient(135deg, #8b4513, #a0522d);
+  color: white;
+  border: 2px solid rgba(139, 69, 19, 0.8);
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background: linear-gradient(135deg, #a0522d, #b8621f);
+  border-color: #8b4513;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(139, 69, 19, 0.3);
+}
+
+.btn-logout i {
+  font-size: 1.25rem;
+}
+
 @media (max-width: 991px) {
   .container-fluid {
     padding-bottom: 80px !important; /* Add space for fixed bottom nav */
@@ -114,4 +141,13 @@
   .content-area {
     padding: 1.25rem;
   }
+
+   .btn-logout .logout-text {
+    display: none;
+  }
+  
+  .btn-logout {
+    padding: 0.5rem;
+  }
+  
 }
