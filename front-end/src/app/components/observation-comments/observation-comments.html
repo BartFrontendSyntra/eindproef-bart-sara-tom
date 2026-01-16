@@ -51,7 +51,7 @@
         <td class="obs-text-cell text-truncate">
           {{ comment.body }}
         </td>
-        <td>{{ comment.user_id || 'N/A' }}</td>
+        <td>{{ comment.user?.username || 'N/A' }}</td>
         <td>{{ comment.created_at }}</td>
       
       </tr>

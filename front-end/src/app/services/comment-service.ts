@@ -50,4 +50,8 @@ export interface Comment {
   body: string;
   is_public: boolean;
   created_at: string;
+  user?: {
+    id: number;
+    username: string;
+  };
 }
