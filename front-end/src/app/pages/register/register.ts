@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, effect } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service';
 import { form, required, Field } from '@angular/forms/signals';
 import { Router, RouterLink } from '@angular/router';
@@ -13,6 +13,18 @@ import { CommonModule } from '@angular/common';
 
 
 export class Register {
+
+constructor() {
+  effect(() => {
+    const model = this.registerModel();
+    if (model.username.includes(' ')) {
+      this.registerModel.update(m => ({
+        ...m,
+        username: m.username.replace(/\s+/g, ''),
+      }));
+    }
+  });
+}
 
 authenticationService: AuthenticationService = inject(AuthenticationService);
   router: Router = inject(Router);
