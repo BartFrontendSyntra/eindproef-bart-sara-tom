@@ -1,1 +1,22 @@
-<p>observation-comments works!</p>
+<table class="table table-hover">
+  <thead class="table-light">
+    <tr>
+      <th scope="col">comment</th>
+      <th scope="col">user</th>
+      <th scope="col">created_at</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    @for (comment of comments(); track $index) {
+      <tr class="clickable-row">
+        <td class="obs-text-cell text-truncate">
+          {{ comment.body }}
+        </td>
+        <td>{{ comment.user_id || 'N/A' }}</td>
+        <td>{{ comment.created_at }}</td>
+      
+      </tr>
+    }
+  </tbody>
+</table>
