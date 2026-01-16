@@ -347,6 +347,11 @@ Route::post('/observations', function (Request $request) {
     ]);
 
     $user = $request->user();
+    // Determine status based on role
+    $status = 'pending';
+    if ($user->role->id === 2) { // Ranger
+        $status = 'verified';
+    }
     
     DB::insert('
         INSERT INTO observations (user_id, coordinates, observation_text, photo_url, status, location_id, created_at)
@@ -356,7 +361,7 @@ Route::post('/observations', function (Request $request) {
         "POINT({$validated['longitude']} {$validated['latitude']})",
         $validated['observation_text'] ?? null,
         $validated['photo_url'] ?? null,
-        'pending',
+        $status,
         $validated['location_id'] ?? null,
     ]);
     
@@ -365,6 +370,7 @@ Route::post('/observations', function (Request $request) {
     return response()->json([
         'message' => 'Observation created successfully',
         'id' => $id,
+        'status' => $status,
     ], 201);
 })->middleware('auth:sanctum');
 
