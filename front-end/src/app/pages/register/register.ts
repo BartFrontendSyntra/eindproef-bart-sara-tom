@@ -51,7 +51,7 @@ constructor() {
           this.usernameAvailable.set(available);    // storing available in variable
         })
         .catch(() => {
-          this.usernameAvailable.set(null);
+          this.usernameAvailable.set(null);         // defaulting to nothing when sending bad request
         })
         .finally(() => {
           this.checkingUsername.set(false);
@@ -59,7 +59,6 @@ constructor() {
     }, 400); // delay before starting the actual check
   });
 }
-
 
 authenticationService: AuthenticationService = inject(AuthenticationService);
   router: Router = inject(Router);
@@ -81,7 +80,6 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
     required(schemaPath.password_confirmation, { message: 'Confirm password' });
   });
 
-
   // Signals for controlling UI feedback elements
   showToast = signal(false);
   toastMessage = signal('');
@@ -96,31 +94,29 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
         password !== password_confirmation;
   });
 
-
-
   onSubmit(event: Event) {
     event.preventDefault();
    
     const regCredentials = this.registerModel();
     console.log('Registering:', regCredentials);
 
+    // will register AND login immediately
     this.authenticationService
-      .register(regCredentials)
-      .then(() => {
+      .register(regCredentials)                         //registry
+      .then(() => {                                     // login
         const loginCredentials = {
           username: regCredentials.username,
           password: regCredentials.password,
           requiredRole: regCredentials.requiredRole
         };
-        console.log('Logging in with:', loginCredentials);
-        return this.authenticationService.login(loginCredentials);
+          return this.authenticationService.login(loginCredentials);
       })
       .then(token => {
         console.log('Registration and login successful, token:', token);
         const redirectUrl =
           sessionStorage.getItem('redirect_after_login') || '/';
         sessionStorage.removeItem('redirect_after_login');
-        this.router.navigate([redirectUrl]); 
+        this.router.navigate([redirectUrl]);    // redirection after login
       })
 
       .catch((error: any) => {

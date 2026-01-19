@@ -58,7 +58,7 @@ export class AuthenticationService {
         return response.json();
       })
       .then((data) => {
-        sessionStorage.setItem('auth_token', data.token);
+        sessionStorage.setItem('auth_token', data.token); 
         return data;
       });
   }
