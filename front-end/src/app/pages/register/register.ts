@@ -16,6 +16,11 @@ export class Register {
 
 private usernameCheckTimeout: any;
 
+// variables for username checking
+  usernameAvailable = signal<boolean | null>(null);
+  checkingUsername = signal(false);
+
+
 constructor() {
   // blocking spaces in username and forcibly removing them
   effect(() => {
@@ -27,7 +32,7 @@ constructor() {
       }));
     }
   });
-  // username availability check, STILL HAS TO BE CLEANED UP
+  // username availability check
   effect(() => {
     const username = this.registerModel().username.trim();
 
@@ -35,7 +40,7 @@ constructor() {
 
     if (username.length < 3) return;
 
-    clearTimeout(this.usernameCheckTimeout);
+    clearTimeout(this.usernameCheckTimeout);    // avoid checking while typing
 
     this.usernameCheckTimeout = setTimeout(() => {
       this.checkingUsername.set(true);
@@ -43,7 +48,7 @@ constructor() {
       this.authenticationService
         .checkUsernameAvailable(username)
         .then(available => {
-          this.usernameAvailable.set(available);
+          this.usernameAvailable.set(available);    // storing available in variable
         })
         .catch(() => {
           this.usernameAvailable.set(null);
@@ -51,7 +56,7 @@ constructor() {
         .finally(() => {
           this.checkingUsername.set(false);
         });
-    }, 400); // debounce?
+    }, 400); // delay before starting the actual check
   });
 }
 
@@ -59,14 +64,16 @@ constructor() {
 authenticationService: AuthenticationService = inject(AuthenticationService);
   router: Router = inject(Router);
 
+  // Reactive signal to check input
   registerModel = signal<RegCredentials>({
     username: '',
     email: '',
     password: '',
     password_confirmation: '',
-    requiredRole: 'Visitor',
+    requiredRole: 'Visitor',  // automatic visitor role for new registration
   });
 
+  // Validation rules for the registration form
   registerForm = form(this.registerModel, schemaPath => {
     required(schemaPath.username, { message: 'Username is required' });
     required(schemaPath.email, { message: 'E-mail is required' });
@@ -74,11 +81,14 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
     required(schemaPath.password_confirmation, { message: 'Confirm password' });
   });
 
+
+  // Signals for controlling UI feedback elements
   showToast = signal(false);
   toastMessage = signal('');
   showModal = signal(false);
   modalMessage = signal('');
 
+  // front-end check for (mis)matching passwords
   passwordsMismatch = computed(() => {
     const { password, password_confirmation } = this.registerModel();
     return password.length > 0 &&
@@ -86,8 +96,7 @@ authenticationService: AuthenticationService = inject(AuthenticationService);
         password !== password_confirmation;
   });
 
-  usernameAvailable = signal<boolean | null>(null);
-  checkingUsername = signal(false);
+
 
   onSubmit(event: Event) {
     event.preventDefault();
