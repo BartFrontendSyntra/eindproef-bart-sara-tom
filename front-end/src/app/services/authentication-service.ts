@@ -5,10 +5,11 @@ import { Injectable } from '@angular/core';
 })
 export class AuthenticationService {
   
+  // API urls, should be in env file for deployment
   private apiUrl = 'http://localhost:8000/api/login';
   private registerUrl = 'http://localhost:8000/api/register';
   
-
+  
   login(user: User): Promise<string> {
     return fetch(this.apiUrl, {
       method: 'POST',
@@ -19,7 +20,7 @@ export class AuthenticationService {
         username: user.username, 
         password: user.password, 
         requiredRole: user.requiredRole}),
-    })
+      })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Login failed');
@@ -47,7 +48,8 @@ export class AuthenticationService {
         password_confirmation: user.password_confirmation,
         requiredRole: user.requiredRole
       }),
-    })
+      })
+      // async error handling because it may take longer than angular wants to show error message
       .then(async (response) => {
         if (!response.ok) {
           const err = await response.json();
