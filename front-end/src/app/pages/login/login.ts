@@ -15,33 +15,37 @@ export class Login {
 authenticationService: AuthenticationService = inject(AuthenticationService);
   router: Router = inject(Router);
 
+  // Reactive signal to check input
   loginModel = signal<Credentials>({
     username: '',
     password: ''
   });
 
+  // Validation rules for the login form
   loginForm = form(this.loginModel, schemaPath => {
     required(schemaPath.username, { message: 'Username is required' });
     required(schemaPath.password, { message: 'Password is required' });
   });
 
+  
+  // Signals for controlling UI feedback elements
   showToast = signal(false);
   toastMessage = signal('');
   showModal = signal(false);
   modalMessage = signal('');
 
   onSubmit(event: Event) {
-    event.preventDefault();
+    event.preventDefault();   // Prevent page reload
    
-    const credentials = this.loginModel();
-    this.authenticationService
+    const credentials = this.loginModel();  // Read input signal
+    this.authenticationService  // send login to authentication service
       .login(credentials)
       .then(data => {
         
         const redirectUrl =
           sessionStorage.getItem('redirect_after_login') || '/';
         sessionStorage.removeItem('redirect_after_login');
-        this.router.navigate([redirectUrl]);
+        this.router.navigate([redirectUrl]);    // Redirection
       })
       .catch((error: any) => {
         console.error(error);
